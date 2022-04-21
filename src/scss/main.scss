@@ -6,5 +6,23 @@
 
 body{
     min-height: 100vh;
-    background-color: yellow;
+    background-color: #ffa800;
+}
+
+.slider{
+    .btn_container{
+        display: flex;
+        gap: 1rem;
+        button{
+            cursor: pointer;
+
+            background-color: transparent;
+            border: 1px solid black;    
+            padding: 1rem;
+        }
+
+        button:hover{
+            color: black;
+        }
+    }
 }

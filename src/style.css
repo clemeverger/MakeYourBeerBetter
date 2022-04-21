@@ -5,4 +5,15 @@
 
 body {
   min-height: 100vh;
-  background-color: yellow; }
+  background-color: #ffa800; }
+
+.slider .btn_container {
+  display: flex;
+  gap: 1rem; }
+  .slider .btn_container button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid black;
+    padding: 1rem; }
+  .slider .btn_container button:hover {
+    color: black; }
