@@ -1,7 +1,47 @@
+<<<<<<< HEAD
 .recipe{
     flex-grow: 1;
 
     display: flex;
     justify-content: center;
     align-items: center;
+=======
+.recipe {
+    width: 100%;
+    height: 100%;
+
+    .recipe-content {
+        width: 100%;
+        display: flex;
+
+        .recap-recip {
+            width: calc((2/3)*100vw);
+
+            form {
+                display: flex;
+
+                div {
+                    display: inline;
+                }
+            }
+
+            .table {
+                width: 80%;
+                height: 60vh;
+                margin: 0 auto;
+                background: #CCC;
+            }
+        }
+
+        .threejs {
+            width: calc((1/3)*100vw);
+            background: #CCC;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: -1;
+        }
+    }
+>>>>>>> ab5f85c91d0638025d5fffda5d111c8175648a94
 }
