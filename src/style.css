@@ -1,8 +1,80 @@
+@charset "UTF-8";
+/* Variables *********************************************************************/
+/* Preset *********************************************************************/
+body {
+  min-height: 100vh;
+  min-width: 100vh;
+  width: 100%;
+  background: #FFA800; }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box; }
 
-body {
-  min-height: 100vh;
-  background-color: yellow; }
+a {
+  text-decoration: none;
+  font-family: Cairo;
+  font-size: 20px; }
+
+/* Composant *********************************************************************/
+.c-link {
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+  color: #333;
+  overflow: hidden; }
+  .c-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.1em;
+    background-color: #333;
+    transition: opacity 300ms, transform 300ms;
+    opacity: 1;
+    transform: translate3d(-100%, 0, 0); }
+  .c-link:hover::after, .c-link:focus::after {
+    transform: translate3d(0, 0, 0); }
+
+/* Navbar *********************************************************************/
+nav {
+  min-width: 100vh; }
+  nav svg {
+    position: absolute;
+    top: 0; }
+  nav img {
+    position: absolute;
+    transform: rotate(25deg);
+    left: 6em; }
+  nav .menu {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding: 2% 0; }
+    nav .menu .menu__item {
+      list-style: none;
+      margin-right: 2em; }
+
+/* Home *********************************************************************/
+#section__home h1 {
+  position: relative;
+  font-family: Montserrat;
+  font-style: medium;
+  font-size: 150px;
+  width: 12ch;
+  margin: 0 auto;
+  margin-top: 50vh;
+  /* poussé de la moitié de hauteur de viewport */
+  transform: translateY(-50%);
+  /* tiré de la moitié de sa propre hauteur */ }
+
+/* Inventaire *********************************************************************/
+/* Make Beer *********************************************************************/
+#section__make-beer .left {
+  width: calc(((2/3)*100vh)-100vh); }
+
+#section__make-beer .right {
+  width: calc(((1/3)*100vh)-100vh); }
