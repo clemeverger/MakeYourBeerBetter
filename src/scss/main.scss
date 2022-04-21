@@ -4,6 +4,8 @@
 
 @import "slider.scss";
 
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap');
+
 /* Variables *********************************************************************/
 $beercolor: #FFA800;
 $black: #333;
@@ -36,6 +38,8 @@ body {
     padding-bottom: 0.2rem;
 
     cursor: pointer;
+
+    font-family: 'Cairo', sans-serif;
 
     &::after {
         content: '';
@@ -81,6 +85,4 @@ nav {
 .app{
     flex-grow: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }

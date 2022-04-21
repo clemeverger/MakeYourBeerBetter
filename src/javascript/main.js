@@ -30,35 +30,58 @@ class Slider {
         let filter_by_houblons = document.createElement("button");
         filter_by_houblons.innerHTML = "Houblons";
         filter_by_houblons.addEventListener("click", () => {
-            this.activeTab = "hops";
-            console.log("filter by houblons", this.data);
+            this.updateData("hops");
         });
 
         let filter_by_malts = document.createElement("button");
         filter_by_malts.innerHTML = "Malts";
         filter_by_malts.addEventListener("click", () => {
-            this.activeTab = "malts";
-            this.data = malts;
-            console.log("filter by malts", this.data);
+            this.updateData("malts");
         });
 
         let filter_by_levures = document.createElement("button");
         filter_by_levures.innerHTML = "Levures";
         filter_by_levures.addEventListener("click", () => {
-            this.activeTab = "yeasts";
-            this.data = yeasts;
-            console.log("filter by levures", this.data);
+            this.updateData("yeasts");
         });
 
         btn_container.appendChild(filter_by_houblons);
         btn_container.appendChild(filter_by_malts);
         btn_container.appendChild(filter_by_levures);
-        this.slider.appendChild(btn_container);      
+
+        this.data_container = document.createElement("div");
+        this.data_container.setAttribute("class", "data_container");
+
+        this.slider.appendChild(btn_container);     
+        this.slider.appendChild(this.data_container);    
+    }
+
+    updateData(e){
+        this.activeTab = e;
+        switch(this.activeTab){
+            case "hops":
+                this.data = hops;
+                this.data_container.innerHTML = "";
+            break;
+            case "malts":
+                this.data = malts;
+                this.data_container.innerHTML = "";
+            break;
+            case "yeasts":
+                this.data = yeasts;
+                this.data_container.innerHTML = "";
+            break;
+        }
+        this.data.data.forEach(elem => {
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+            card.innerHTML = elem.NAME;
+            this.data_container.appendChild(card);
+        });
     }
 }
 
 let activePage = "home";
-
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".menu__item").forEach((elem) => {
         elem.addEventListener("click", () => {
@@ -67,6 +90,7 @@ window.addEventListener("DOMContentLoaded", () => {
             document.querySelector("." + activePage).style.display = "flex";
         })
     })
+    let slider_inventory = new Slider(".slider");
 });
 
 
