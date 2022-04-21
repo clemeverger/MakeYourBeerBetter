@@ -1,11 +1,15 @@
+/* Variables *********************************************************************/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box; }
 
+/* Preset *********************************************************************/
 body {
   min-height: 100vh;
-  background-color: #ffa800; }
+  min-width: 100vh;
+  width: 100%;
+  background: #FFA800; }
 
 .slider .btn_container {
   display: flex;
@@ -17,3 +21,60 @@ body {
     padding: 1rem; }
   .slider .btn_container button:hover {
     color: black; }
+
+a {
+  text-decoration: none;
+  font-family: Cairo;
+  font-size: 20px; }
+
+/* Composant *********************************************************************/
+.c-link {
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+  color: #333;
+  overflow: hidden; }
+  .c-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.1em;
+    background-color: #333;
+    transition: opacity 300ms, transform 300ms;
+    opacity: 1;
+    transform: translate3d(-100%, 0, 0); }
+  .c-link:hover::after, .c-link:focus::after {
+    transform: translate3d(0, 0, 0); }
+
+/* Navbar *********************************************************************/
+nav {
+  min-width: 100vw; }
+  nav svg {
+    margin-left: -5px;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  nav .menu {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 2rem 0; }
+    nav .menu .menu__item {
+      list-style: none;
+      margin-right: 2em; }
+
+/* Home *********************************************************************/
+#section__home h1 {
+  position: relative;
+  font-family: Montserrat;
+  font-style: medium;
+  font-size: 150px;
+  width: 15ch;
+  margin: 0 auto;
+  margin-top: 50vh;
+  transform: translateY(-50%); }
+
+/* Inventaire *********************************************************************/
