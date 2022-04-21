@@ -26,7 +26,43 @@
             <h1>Inventory</h1>
         </section>
         <section class="recipe" style="display: none;">
-            <h1>Make Beer</h1>
+            <div class="recipe-content">
+                <div class="recap-recip">
+                    <h1>Créer votre recette :</h1> 
+                    <form action="" method="post">
+                        <div>
+                            <label for="beerName">Nom : </label>
+                            <input type="text" name="beerName" id="beerName" placeholder="Le nom de la bière">
+                        </div>
+                        <div>
+                            <label for="volume">Volume : </label>
+                            <input type="text" name="volume" id="volume" placeholder="100 L">
+                        </div>
+                        <div>
+                            <label for="boil">Durée d'ébulition : </label>
+                            <input type="text" name="boil" id="boil" placeholder="60 min">
+                        </div>
+                        <div>
+                            <label for="efficiency">Éfficacité de production : </label>
+                            <input type="text" name="efficiency" id="efficiency" placeholder="80 %">
+                        </div>
+                    </form>
+                    <p id="add-ingredients" style="display: none;">Ajouter un ingrédient 2</p>
+                    <table class="table">
+                        <p id="ajoutElem" style="display: block;">Ajouter un ingrédient 1</p>
+                        <tbody style="display: none;">
+                            <tr>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Quantité</th>
+                                <th>Étape</th>
+                                <th>Temps</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="threejs"></div>
+            </div>
         </section>
     </div>
     <script src="./javascript/main.js"></script>
