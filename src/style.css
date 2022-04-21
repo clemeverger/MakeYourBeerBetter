@@ -1,3 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
+.home {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .home h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 150px;
+    width: 15ch; }
+
 .slider .btn_container {
   display: flex;
   gap: 1rem; }
@@ -15,66 +26,55 @@
   padding: 0;
   box-sizing: border-box; }
 
-/* Preset *********************************************************************/
 body {
   min-height: 100vh;
   min-width: 100vh;
   width: 100%;
-  background: #FFA800; }
-
-a {
-  text-decoration: none;
-  font-family: Cairo;
-  font-size: 20px; }
+  background: #FFA800;
+  display: flex;
+  flex-direction: column; }
 
 /* Composant *********************************************************************/
-.c-link {
-  display: block;
+.link {
   position: relative;
-  padding: 0.2em 0;
   color: #333;
-  overflow: hidden; }
-  .c-link::after {
+  text-decoration: none;
+  font-size: 20px;
+  padding-bottom: 0.2rem;
+  cursor: pointer; }
+  .link::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 0%;
     height: 0.1em;
     background-color: #333;
-    transition: opacity 300ms, transform 300ms;
-    opacity: 1;
-    transform: translate3d(-100%, 0, 0); }
-  .c-link:hover::after, .c-link:focus::after {
-    transform: translate3d(0, 0, 0); }
+    transition: width 300ms; }
+  .link:hover::after, .link:focus::after {
+    width: 100%; }
 
 /* Navbar *********************************************************************/
 nav {
-  min-width: 100vw; }
+  position: relative;
+  width: 100vw; }
   nav svg {
-    margin-left: -5px;
     position: absolute;
     top: 0;
-    left: 0; }
+    left: 0;
+    margin-left: -5px; }
   nav .menu {
-    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    padding: 2rem 0; }
+    padding: 2rem 0;
+    z-index: 10; }
     nav .menu .menu__item {
       list-style: none;
       margin-right: 2em; }
 
-/* Home *********************************************************************/
-#section__home h1 {
-  position: relative;
-  font-family: Montserrat;
-  font-style: medium;
-  font-size: 150px;
-  width: 15ch;
-  margin: 0 auto;
-  margin-top: 50vh;
-  transform: translateY(-50%); }
-
-/* Inventaire *********************************************************************/
+.app {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; }

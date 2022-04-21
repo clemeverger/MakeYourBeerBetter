@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap');
+
+.home{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 150px;
+        width: 15ch;
+    }    
+}

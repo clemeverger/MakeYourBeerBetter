@@ -57,8 +57,16 @@ class Slider {
     }
 }
 
+let activePage = "home";
+
 window.addEventListener("DOMContentLoaded", () => {
-    let slider = new Slider(".slider");
+    document.querySelectorAll(".menu__item").forEach((elem) => {
+        elem.addEventListener("click", () => {
+            document.querySelector("." + activePage).style.display = "none";
+            activePage = elem.id;
+            document.querySelector("." + activePage).style.display = "flex";
+        })
+    })
 });
 
 
