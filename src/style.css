@@ -1,3 +1,14 @@
+.slider .btn_container {
+  display: flex;
+  gap: 1rem; }
+  .slider .btn_container button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid black;
+    padding: 1rem; }
+  .slider .btn_container button:hover {
+    color: black; }
+
 /* Variables *********************************************************************/
 * {
   margin: 0;
@@ -10,17 +21,6 @@ body {
   min-width: 100vh;
   width: 100%;
   background: #FFA800; }
-
-.slider .btn_container {
-  display: flex;
-  gap: 1rem; }
-  .slider .btn_container button {
-    cursor: pointer;
-    background-color: transparent;
-    border: 1px solid black;
-    padding: 1rem; }
-  .slider .btn_container button:hover {
-    color: black; }
 
 a {
   text-decoration: none;
