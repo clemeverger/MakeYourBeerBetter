@@ -55,7 +55,7 @@
       padding: 1rem; }
       .slider-filter button:hover {
         color: black; }
-  .slider-container {
+  .slider-data_container {
     display: flex;
     overflow: hidden; }
   .slider-card {
