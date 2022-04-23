@@ -1,64 +1,139 @@
 export default class Slider {
-    constructor(slider, JSON_DATA) {
-        this.slider = document.querySelector(slider);
-        this.JSON_DATA = JSON_DATA;
+    constructor(destination, data, settings) {
+        //CUSTOM SETTINGS
+        if (this.settings) {
+            this.settings = settings;
+        }
+        else {
+            //DEFAULT SETTINGS
+            this.settings = {
+                "card": {
+                    "height": "50vh",
+                    "width": "20vw",
+                    "eWidth": "70vw",
+                    "gap": "2rem",
+                }
+            }
+        }
+        this.slider = document.querySelector(destination);
+        this.data = data;
 
-        this.activeTab = "hops";
-        this.activeData = this.JSON_DATA.hops;
+        this.activeData = this.data.hops;
 
-        let btn_container = document.createElement("div");
-        btn_container.setAttribute("class", "btn_container");
+        this.activeCard = undefined;
+        this.sliderPosition = 0;
+
+        this.createSlider();
+        this.updateData();
+    }
+
+    createSlider() {
+        let filter = document.createElement("div");
+        filter.setAttribute("class", "slider-filter");
 
         let filter_by_houblons = document.createElement("button");
         filter_by_houblons.innerHTML = "Houblons";
         filter_by_houblons.addEventListener("click", () => {
-            this.updateData("hops");
+            this.filterData("hops");
         });
 
         let filter_by_malts = document.createElement("button");
         filter_by_malts.innerHTML = "Malts";
         filter_by_malts.addEventListener("click", () => {
-            this.updateData("malts");
+            this.filterData("malts");
         });
 
         let filter_by_levures = document.createElement("button");
         filter_by_levures.innerHTML = "Levures";
         filter_by_levures.addEventListener("click", () => {
-            this.updateData("yeasts");
+            this.filterData("yeasts");
         });
 
-        btn_container.appendChild(filter_by_houblons);
-        btn_container.appendChild(filter_by_malts);
-        btn_container.appendChild(filter_by_levures);
+        filter.appendChild(filter_by_houblons);
+        filter.appendChild(filter_by_malts);
+        filter.appendChild(filter_by_levures);
 
-        this.data_container = document.createElement("div");
-        this.data_container.setAttribute("class", "data_container");
+        this.container = document.createElement("div");
+        this.container.setAttribute("class", "slider-container");
+        this.container.style.gap = this.settings.card.gap;
 
-        this.slider.appendChild(btn_container);     
-        this.slider.appendChild(this.data_container);    
+        this.slider.appendChild(filter);
+        this.slider.appendChild(this.container);
     }
 
-    updateData(e){
-        this.activeTab = e;
-        switch(this.activeTab){
+    filterData(by) {
+        switch (by) {
             case "hops":
-                this.activeData = this.JSON_DATA.hops;
-                this.data_container.innerHTML = "";
-            break;
+                this.activeData = this.data.hops;
+                this.container.innerHTML = "";
+                break;
             case "malts":
-                this.activeData = this.JSON_DATA.malts;
-                this.data_container.innerHTML = "";
-            break;
+                this.activeData = this.data.malts;
+                this.container.innerHTML = "";
+                break;
             case "yeasts":
-                this.activeData = this.JSON_DATA.yeasts;
-                this.data_container.innerHTML = "";
-            break;
+                this.activeData = this.data.yeasts;
+                this.container.innerHTML = "";
+                break;
         }
+        this.updateData();
+    }
+    updateData() {
         this.activeData.forEach(elem => {
             let card = document.createElement("div");
-            card.setAttribute("class", "card");
+            card.setAttribute("class", "slider-card");
+
+            card.style.width = this.settings.card.width;
+            card.style.height = this.settings.card.height;
+
+            card.id = elem.NAME;
+
             card.innerHTML = elem.NAME;
-            this.data_container.appendChild(card);
+
+            card.addEventListener("click", (e) => {
+                this.expandTheCard(e);
+            })
+            this.container.appendChild(card);
         });
+    }
+    expandTheCard(e) {
+        let powerNumber = 4;
+        if (e.target != this.activeCard) {
+            this.activeCard = e.target;
+            gsap.to(this.activeCard, { width: this.settings.card.eWidth, ease: 'power' + powerNumber + '.out' });
+            let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
+            let b = this.getOffset(this.activeCard).left;
+            let c = this.sliderPosition + (a - b);
+            gsap.to(this.container, { x: c, ease: 'power' + powerNumber + '.out' });
+            this.sliderPosition = c;
+        }
+        else {
+            gsap.to(this.activeCard, { width: this.settings.card.width, ease: 'power' + powerNumber + '.out' });
+            let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
+            let b = this.getOffset(this.activeCard).left;
+            let c = this.sliderPosition + (a - b);
+
+            gsap.to(this.container, { x: c, ease: 'power' + powerNumber + '.out' });
+            this.sliderPosition = c;
+
+            this.activeCard = undefined;
+        }
+    }
+    getOffset(el) {
+        const rect = el.getBoundingClientRect();
+        return {
+            left: rect.left + window.scrollX,
+            top: rect.top + window.scrollY
+        };
+    }
+
+    vh(v) {
+        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        return (v * h) / 100;
+    }
+
+    vw(v) {
+        var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        return (v * w) / 100;
     }
 }

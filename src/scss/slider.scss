@@ -1,37 +1,33 @@
 .slider{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    .btn_container{
+
+    &-filter{
         display: flex;
         gap: 2rem;
         button{
             cursor: pointer;
-
             background-color: transparent;
             border: 1px solid black;    
             padding: 1rem;
-        }
-
-        button:hover{
-            color: black;
+            &:hover{
+                color: black;
+            }
         }
     }
 
-    .data_container{
+    &-container{
         display: flex;
-        gap: 3rem;
         overflow: hidden;
     }
 
-    .card{
-        width: 250px;
-        height: 50vh;
-
+    &-card{
         background-color: black;
         color: white;
         display: flex;
         justify-content: center;
         align-items: center;
+
+        cursor: pointer;
     }
 }

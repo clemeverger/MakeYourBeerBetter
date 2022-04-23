@@ -44,30 +44,27 @@
 
 .slider {
   display: flex;
-  flex-direction: column;
-  gap: 1rem; }
-  .slider .btn_container {
+  flex-direction: column; }
+  .slider-filter {
     display: flex;
     gap: 2rem; }
-    .slider .btn_container button {
+    .slider-filter button {
       cursor: pointer;
       background-color: transparent;
       border: 1px solid black;
       padding: 1rem; }
-    .slider .btn_container button:hover {
-      color: black; }
-  .slider .data_container {
+      .slider-filter button:hover {
+        color: black; }
+  .slider-container {
     display: flex;
-    gap: 3rem;
     overflow: hidden; }
-  .slider .card {
-    width: 250px;
-    height: 50vh;
+  .slider-card {
     background-color: black;
     color: white;
     display: flex;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    cursor: pointer; }
 
 /* Variables *********************************************************************/
 * {
