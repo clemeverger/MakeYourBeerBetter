@@ -57,8 +57,40 @@ export default class Slider {
         this.container.setAttribute("class", "slider-container");
         this.container.style.gap = this.settings.card.gap;
 
+
+        this.wrapper = document.createElement("div");
+        this.wrapper.classList.add("slider-wrapper");
+        this.wrapper.appendChild(this.container);
+
         this.slider.appendChild(filter);
-        this.slider.appendChild(this.container);
+        this.slider.appendChild(this.wrapper);
+
+        this.initSlider();
+    }
+
+    initSlider() {
+        let clientX = null;
+        let grabbing = false;
+        let prevDistanceScrolled = null;
+        let distanceToScroll;
+
+        this.wrapper.addEventListener("mousedown", (e) => {
+            clientX = e.clientX;
+            grabbing = true;
+        })
+
+        this.wrapper.addEventListener("mouseup", () => {
+            grabbing = false;
+            prevDistanceScrolled += distanceToScroll;
+        })
+
+        this.wrapper.addEventListener("mousemove", (e) => {
+            if (grabbing) {
+                let newClientX = e.clientX;
+                distanceToScroll = newClientX - clientX;
+                this.wrapper.style.transform = `translateX(${distanceToScroll + prevDistanceScrolled}px)`
+            }
+        })
     }
 
     filterData(by) {
