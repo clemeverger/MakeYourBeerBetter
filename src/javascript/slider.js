@@ -76,6 +76,8 @@ export default class Slider {
         let prevDistanceScrolled = null;
         let distanceToScroll;
 
+        let temp = 0;
+
         this.sliding_container.addEventListener("mousedown", (e) => {
             clientX = e.clientX;
             grabbing = true;
@@ -83,10 +85,13 @@ export default class Slider {
 
         this.sliding_container.addEventListener("mouseup", () => {
             grabbing = false;
-            prevDistanceScrolled += distanceToScroll;
-            setTimeout(() => {
-                this.openningCardsIsLocked = false;
-            }, 25);
+            if(distanceToScroll != temp){
+                prevDistanceScrolled += distanceToScroll;
+                temp = distanceToScroll;
+                setTimeout(() => {
+                    this.openningCardsIsLocked = false;
+                }, 25);
+            } 
         })
 
         this.sliding_container.addEventListener("mousemove", (e) => {
@@ -99,7 +104,7 @@ export default class Slider {
                 /* this.sliding_container.style.transform = `translateX(${distanceToScroll + prevDistanceScrolled}px)` */
                 
                 let offset = distanceToScroll + prevDistanceScrolled;
-                gsap.to(this.sliding_container, { x: offset, ease:"sine.Out" });
+                gsap.to(this.sliding_container, { x: offset });
             }
         })
     }
@@ -159,8 +164,8 @@ export default class Slider {
             let c = this.sliderPosition + (a - b);
 
             gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
-            this.sliderPosition = c;
 
+            this.sliderPosition = c;
             this.activeCard = undefined;
         }
     }
