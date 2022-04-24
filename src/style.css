@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
 .home {
   flex-grow: 1;
   display: flex;
@@ -44,7 +45,8 @@
 
 .slider {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  gap: 5rem; }
   .slider-filter {
     display: flex;
     gap: 2rem; }
@@ -56,19 +58,49 @@
       .slider-filter button:hover {
         color: black; }
   .slider-data_container {
-    display: flex;
-    overflow: hidden; }
+    display: flex; }
   .slider-card {
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
+    background-color: black;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  .slider-content--collapsed {
+    height: 100%;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5vw;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    text-align: center;
+    pointer-events: none; }
+  .slider-content--expanded {
+    height: 100%;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5vw;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    display: none;
+    position: relative; }
+    .slider-content--expanded h3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: white;
+      font-size: 10rem;
+      white-space: nowrap;
+      transform: translate(-50px, -100px); }
 
 /* Variables *********************************************************************/
 * {

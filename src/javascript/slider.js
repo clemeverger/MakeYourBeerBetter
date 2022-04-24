@@ -11,7 +11,7 @@ export default class Slider {
                     "height": "50vh",
                     "width": "20vw",
                     "eWidth": "70vw",
-                    "gap": "2rem",
+                    "gap": "20px",
                 }
             }
         }
@@ -28,7 +28,6 @@ export default class Slider {
         this.createSlider();
         this.updateData();
     }
-
     createSlider() {
         let filter = document.createElement("div");
         filter.setAttribute("class", "slider-filter");
@@ -69,7 +68,6 @@ export default class Slider {
 
         this.initSlider();
     }
-
     initSlider() {
         let clientX = null;
         let grabbing = false;
@@ -85,30 +83,28 @@ export default class Slider {
 
         this.sliding_container.addEventListener("mouseup", () => {
             grabbing = false;
-            if(distanceToScroll != temp){
+            if (distanceToScroll != temp) {
                 prevDistanceScrolled += distanceToScroll;
                 temp = distanceToScroll;
                 setTimeout(() => {
                     this.openningCardsIsLocked = false;
                 }, 10);
-            } 
+            }
+            else {
+                console.log("ERROR");
+            }
         })
 
         this.sliding_container.addEventListener("mousemove", (e) => {
             if (grabbing) {
                 this.openningCardsIsLocked = true;
-
                 let newClientX = e.clientX;
                 distanceToScroll = newClientX - clientX;
-
-                /* this.sliding_container.style.transform = `translateX(${distanceToScroll + prevDistanceScrolled}px)` */
-                
                 let offset = distanceToScroll + prevDistanceScrolled;
                 gsap.to(this.sliding_container, { x: offset });
             }
         })
     }
-
     filterData(by) {
         switch (by) {
             case "hops":
@@ -136,7 +132,26 @@ export default class Slider {
 
             card.id = elem.NAME;
 
-            card.innerHTML = elem.NAME;
+            let content_collapsed = document.createElement("div");
+            content_collapsed.setAttribute("class", "slider-content--collapsed");
+            content_collapsed.innerHTML = `
+            <div>` + elem.NAME + `</div>
+            <div>` + elem.ORIGIN + `</div>
+            <div>` + elem.TYPE + `</div>
+            <div>` + elem.INVENTORY + `</div>
+            `;
+
+            let content_expanded = document.createElement("div");
+            content_expanded.setAttribute("class", "slider-content--expanded");
+            content_expanded.innerHTML = `
+            <h3>` + elem.NAME + `</h3>
+            <div>` + elem.ORIGIN + `</div>
+            <div>` + elem.TYPE + `</div>
+            <div>` + elem.INVENTORY + `</div>
+            `;
+
+            card.appendChild(content_collapsed);
+            card.appendChild(content_expanded);
 
             card.addEventListener("click", (e) => {
                 if (!this.openningCardsIsLocked) {
@@ -150,22 +165,33 @@ export default class Slider {
         let powerNumber = 4;
         if (e.target != this.activeCard) {
             this.activeCard = e.target;
-            gsap.to(this.activeCard, { width: this.settings.card.eWidth, ease: 'power' + powerNumber + '.out' });
+            gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: "200px", marginRight: "200px", ease: 'power' + powerNumber + '.out' });
             let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
             let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b);
+            let c = this.sliderPosition + (a - b) - 200;
             gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
             this.sliderPosition = c;
+
+            let tl = gsap.timeline();
+            tl.to(this.activeCard.firstChild, { duration: 0.15, opacity: 0 });
+            tl.to(this.activeCard.firstChild, { duration: 0, display: "none" });
+            tl.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
+            tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
         }
         else {
-            gsap.to(this.activeCard, { width: this.settings.card.width, ease: 'power' + powerNumber + '.out' });
+            gsap.to(this.activeCard, { width: this.settings.card.width, marginLeft: "0px", marginRight: "0px", ease: 'power' + powerNumber + '.out' });
             let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
             let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b);
-
+            let c = this.sliderPosition + (a - b) + 200;
             gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
-
             this.sliderPosition = c;
+
+            let tl = gsap.timeline();
+            tl.to(this.activeCard.lastChild, { duration: 0.15, opacity: 0 });
+            tl.to(this.activeCard.lastChild, { duration: 0, display: "none" });
+            tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
+            tl.to(this.activeCard.firstChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
+
             this.activeCard = undefined;
         }
     }
@@ -176,12 +202,6 @@ export default class Slider {
             top: rect.top + window.scrollY
         };
     }
-
-    vh(v) {
-        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        return (v * h) / 100;
-    }
-
     vw(v) {
         var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         return (v * w) / 100;
