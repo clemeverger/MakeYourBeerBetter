@@ -145,9 +145,7 @@ export default class Slider {
             content_expanded.setAttribute("class", "slider-content--expanded");
             content_expanded.innerHTML = `
             <h3>` + elem.NAME + `</h3>
-            <div>` + elem.ORIGIN + `</div>
-            <div>` + elem.TYPE + `</div>
-            <div>` + elem.INVENTORY + `</div>
+            <div>` + elem.NOTES + `</div>
             `;
 
             card.appendChild(content_collapsed);

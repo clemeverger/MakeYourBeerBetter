@@ -63,14 +63,14 @@
         justify-content: center;
         gap: 2rem;
 
-        text-align: center;
-
         pointer-events: none;
 
         opacity: 0;
         display: none;
 
         position: relative;
+
+        padding: 5rem;
 
         h3{
             position: absolute;
