@@ -90,7 +90,7 @@ export default class Slider {
                 temp = distanceToScroll;
                 setTimeout(() => {
                     this.openningCardsIsLocked = false;
-                }, 25);
+                }, 10);
             } 
         })
 
