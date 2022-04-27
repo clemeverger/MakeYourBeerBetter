@@ -15,7 +15,8 @@
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  flex-direction: column; }
 
 .recipe {
   width: 100%;
@@ -101,6 +102,60 @@
       font-size: 10rem;
       white-space: nowrap;
       transform: translate(-50px, -100px); }
+
+.c-search .search {
+  display: table; }
+
+.c-search .search input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 28px;
+  min-width: 0;
+  padding: 0;
+  z-index: 1;
+  position: relative;
+  line-height: 18px;
+  margin: 5px 0;
+  font-size: 1.5rem;
+  -webkit-appearance: none;
+  transition: all 0.6s ease;
+  cursor: pointer;
+  color: #00264c; }
+
+.c-search .search input + div {
+  position: relative;
+  /*  height: 28px; */
+  width: 100%;
+  margin: -28px 0 0 0; }
+
+.c-search .search input + div svg {
+  display: block;
+  position: absolute;
+  height: 28px;
+  width: 160px;
+  right: 0;
+  top: -8px;
+  fill: none;
+  stroke: #00264c;
+  stroke-width: 1.5px;
+  stroke-dashoffset: 271.908;
+  stroke-dasharray: 59 212.908;
+  transition: all 0.6s ease; }
+
+.c-search .search input:not(:placeholder-shown),
+.c-search .search input:focus {
+  width: 160px;
+  padding: 0 4px;
+  cursor: text; }
+
+.c-search .search input:not(:placeholder-shown) + div svg,
+.c-search .search input:focus + div svg {
+  stroke-dasharray: 150 212.908;
+  stroke-dashoffset: 300; }
+
+.c-search .search > div {
+  overflow-x: clip; }
 
 /* Variables *********************************************************************/
 * {
