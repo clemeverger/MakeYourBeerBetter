@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Montserrat&display=swap");
+.home {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .home h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 150px;
+    width: 15ch; }
+
+.inventory {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.recipe {
+  width: 100%;
+  height: 100%; }
+  .recipe .recipe-content {
+    width: 100%;
+    display: flex; }
+    .recipe .recipe-content .recap-recip {
+      width: calc((2/3)*100vw); }
+      .recipe .recipe-content .recap-recip form {
+        display: flex; }
+        .recipe .recipe-content .recap-recip form div {
+          display: inline; }
+      .recipe .recipe-content .recap-recip .table {
+        width: 80%;
+        height: 60vh;
+        margin: 0 auto;
+        background: #CCC; }
+    .recipe .recipe-content .threejs {
+      width: calc((1/3)*100vw);
+      background: #CCC;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: -1; }
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem; }
+  .slider-filter {
+    display: flex;
+    gap: 2rem; }
+    .slider-filter button {
+      cursor: pointer;
+      background-color: transparent;
+      border: 1px solid black;
+      padding: 1rem; }
+      .slider-filter button:hover {
+        color: black; }
+  .slider-data_container {
+    display: flex; }
+  .slider-card {
+    cursor: pointer;
+    background-color: black;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  .slider-content--collapsed {
+    height: 100%;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5vw;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    text-align: center;
+    pointer-events: none; }
+  .slider-content--expanded {
+    height: 100%;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5vw;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    pointer-events: none;
+    opacity: 0;
+    display: none;
+    position: relative;
+    padding: 5rem; }
+    .slider-content--expanded h3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: white;
+      font-size: 10rem;
+      white-space: nowrap;
+      transform: translate(-50px, -100px); }
+
+/* Variables *********************************************************************/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  min-width: 100vh;
+  width: 100%;
+  background: #FFA800;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; }
+
+/* Composant *********************************************************************/
+.link {
+  position: relative;
+  color: #333;
+  text-decoration: none;
+  font-size: 20px;
+  padding-bottom: 0.2rem;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif; }
+  .link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 0.1em;
+    background-color: #333;
+    transition: width 300ms; }
+  .link:hover::after, .link:focus::after {
+    width: 100%; }
+
+/* Navbar *********************************************************************/
+nav {
+  position: relative;
+  width: 100vw; }
+  nav svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: -5px; }
+  nav .menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 2rem 0;
+    z-index: 10; }
+    nav .menu .menu__item {
+      list-style: none;
+      margin-right: 2em; }
+
+.app {
+  flex-grow: 1;
+  display: flex; }
