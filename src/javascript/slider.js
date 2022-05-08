@@ -1,3 +1,7 @@
+//Supprimer l'anti click
+//Revoir le responsive
+//Refactorer (margin ?)
+
 export default class Slider {
     constructor(destination, data, settings) {
         //CUSTOM SETTINGS
@@ -73,8 +77,7 @@ export default class Slider {
         let grabbing = false;
         let prevDistanceScrolled = null;
         let distanceToScroll;
-
-        let temp = 0;
+        let temp;
 
         this.sliding_container.addEventListener("mousedown", (e) => {
             clientX = e.clientX;
@@ -82,18 +85,23 @@ export default class Slider {
         })
 
         this.sliding_container.addEventListener("mouseup", () => {
+            slidingEnding();
+        })
+
+        this.sliding_container.addEventListener("mouseleave", () => {
+            slidingEnding();
+        })
+
+        const slidingEnding = () => {
             grabbing = false;
             if (distanceToScroll != temp) {
                 prevDistanceScrolled += distanceToScroll;
                 temp = distanceToScroll;
                 setTimeout(() => {
                     this.openningCardsIsLocked = false;
-                }, 10);
+                }, 1);
             }
-            else {
-                console.log("ERROR");
-            }
-        })
+        }
 
         this.sliding_container.addEventListener("mousemove", (e) => {
             if (grabbing) {
@@ -163,10 +171,10 @@ export default class Slider {
         let powerNumber = 4;
         if (e.target != this.activeCard) {
             this.activeCard = e.target;
-            gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: "200px", marginRight: "200px", ease: 'power' + powerNumber + '.out' });
+            gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: this.vw(10), marginRight: this.vw(10), ease: 'power' + powerNumber + '.out' });
             let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
             let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b) - 200;
+            let c = this.sliderPosition + (a - b) - this.vw(10);
             gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
             this.sliderPosition = c;
 
@@ -180,7 +188,7 @@ export default class Slider {
             gsap.to(this.activeCard, { width: this.settings.card.width, marginLeft: "0px", marginRight: "0px", ease: 'power' + powerNumber + '.out' });
             let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
             let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b) + 200;
+            let c = this.sliderPosition + (a - b) + this.vw(10);
             gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
             this.sliderPosition = c;
 
