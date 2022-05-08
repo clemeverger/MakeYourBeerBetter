@@ -54,9 +54,23 @@ export default class Slider {
             this.filterData("yeasts");
         });
 
+        let input = document.createElement("input");
+        input.addEventListener("input", (e) => {
+            //console.log(this.activeData.filter(elem => elem.NAME.includes(e.target.value)));
+            //this.activeData = this.activeData.filter(elem => elem.NAME.includes(e.target.value));
+            this.updateData(e.target.value);
+        })
+
+        this.filter_by_key = document.createElement("select");
+        this.filter_by_key.addEventListener("change", (e) => {
+
+        })
+
         filter.appendChild(filter_by_houblons);
         filter.appendChild(filter_by_malts);
         filter.appendChild(filter_by_levures);
+        filter.appendChild(this.filter_by_key);
+        filter.appendChild(input);
 
         this.data_container = document.createElement("div");
         this.data_container.setAttribute("class", "slider-data_container");
@@ -113,25 +127,37 @@ export default class Slider {
             }
         })
     }
+    resetSlider() {
+        this.sliding_container.style.transform = "translateX(0)";
+    }
     filterData(by) {
         switch (by) {
             case "hops":
                 this.activeData = this.data.hops;
-                this.data_container.innerHTML = "";
                 break;
             case "malts":
                 this.activeData = this.data.malts;
-                this.data_container.innerHTML = "";
                 break;
             case "yeasts":
                 this.activeData = this.data.yeasts;
-                this.data_container.innerHTML = "";
                 break;
         }
         this.updateData();
     }
-    updateData() {
-        this.activeData.forEach(elem => {
+    updateData(input) {
+        this.data_container.innerHTML = "";
+        this.filter_by_key.innerHTML = Object.keys(...this.activeData).map(key => "<option value=" + key + ">" + key.charAt(0).toUpperCase() + key.slice(1).toLowerCase() + "</option>").reduce((a, b) => a + b);
+
+        let activeDataFiltered;
+        if (input) {
+            activeDataFiltered = this.activeData.filter(elem => elem.NAME.toLowerCase().includes(input.toLowerCase()));
+            this.resetSlider();
+        }
+        else {
+            activeDataFiltered = this.activeData;
+        }
+
+        activeDataFiltered.forEach(elem => {
             let card = document.createElement("div");
             card.setAttribute("class", "slider-card");
 
