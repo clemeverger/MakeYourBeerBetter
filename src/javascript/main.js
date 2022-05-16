@@ -15,4 +15,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function main() {
     let slider = new Slider(".slider", await getData());
+    let slider2 = new Slider(".slider2", await getData());
 }  
