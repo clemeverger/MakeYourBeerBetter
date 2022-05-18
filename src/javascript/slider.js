@@ -28,6 +28,7 @@ export default class Slider {
         this.sliderPosition = 0;
 
         this.openningCardsIsLocked = false;
+        this.resetDetect = false;
 
         this.createSlider();
         this.updateData();
@@ -56,8 +57,6 @@ export default class Slider {
 
         let input = document.createElement("input");
         input.addEventListener("input", (e) => {
-            //console.log(this.activeData.filter(elem => elem.NAME.includes(e.target.value)));
-            //this.activeData = this.activeData.filter(elem => elem.NAME.includes(e.target.value));
             this.updateData(e.target.value);
         })
 
@@ -89,13 +88,14 @@ export default class Slider {
     initSlider() {
         let clientX = null;
         let grabbing = false;
-        let prevDistanceScrolled = null;
+        this.prevDistanceScrolled = null;
         let distanceToScroll;
         let temp;
 
         this.sliding_container.addEventListener("mousedown", (e) => {
             clientX = e.clientX;
             grabbing = true;
+
         })
 
         this.sliding_container.addEventListener("mouseup", () => {
@@ -109,7 +109,7 @@ export default class Slider {
         const slidingEnding = () => {
             grabbing = false;
             if (distanceToScroll != temp) {
-                prevDistanceScrolled += distanceToScroll;
+                this.prevDistanceScrolled += distanceToScroll;
                 temp = distanceToScroll;
                 setTimeout(() => {
                     this.openningCardsIsLocked = false;
@@ -122,13 +122,16 @@ export default class Slider {
                 this.openningCardsIsLocked = true;
                 let newClientX = e.clientX;
                 distanceToScroll = newClientX - clientX;
-                let offset = distanceToScroll + prevDistanceScrolled;
+                let offset = distanceToScroll + this.prevDistanceScrolled;
                 gsap.to(this.sliding_container, { x: offset });
             }
         })
     }
     resetSlider() {
-        this.sliding_container.style.transform = "translateX(0)";
+        this.prevDistanceScrolled = 0;
+        this.sliderPosition = 0;
+        gsap.to(this.sliding_container, { x: 0, duration: 0 });
+        gsap.to(this.data_container, { x: 0, duration: 0 });
     }
     filterData(by) {
         switch (by) {
