@@ -5,6 +5,8 @@
     flex-direction: column;
     gap: 5rem;
 
+    min-width: 100vw;
+
     &-filter {
         display: flex;
         gap: 2rem;

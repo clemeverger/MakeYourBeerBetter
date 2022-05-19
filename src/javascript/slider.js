@@ -28,9 +28,9 @@ export default class Slider {
         this.sliderPosition = 0;
 
         this.openningCardsIsLocked = false;
-        this.resetDetect = false;
 
         this.createSlider();
+        this.updateFilter();
         this.updateData();
     }
     createSlider() {
@@ -40,19 +40,26 @@ export default class Slider {
         let filter_by_houblons = document.createElement("button");
         filter_by_houblons.innerHTML = "Houblons";
         filter_by_houblons.addEventListener("click", () => {
-            this.filterData("hops");
+            this.activeData = this.data.hops;
+            this.updateFilter();
+            this.updateData();
         });
 
         let filter_by_malts = document.createElement("button");
         filter_by_malts.innerHTML = "Malts";
-        filter_by_malts.addEventListener("click", () => {
-            this.filterData("malts");
+        filter_by_malts.addEventListener("click", (e) => {
+            console.log(e.target.innerHTML.toLowerCase());
+            this.activeData = this.data.malts;
+            this.updateFilter();
+            this.updateData();
         });
 
         let filter_by_levures = document.createElement("button");
         filter_by_levures.innerHTML = "Levures";
         filter_by_levures.addEventListener("click", () => {
-            this.filterData("yeasts");
+            this.activeData = this.data.yeasts;
+            this.updateFilter();
+            this.updateData();
         });
 
         let input = document.createElement("input");
@@ -61,9 +68,6 @@ export default class Slider {
         })
 
         this.filter_by_key = document.createElement("select");
-        this.filter_by_key.addEventListener("change", (e) => {
-
-        })
 
         filter.appendChild(filter_by_houblons);
         filter.appendChild(filter_by_malts);
@@ -82,6 +86,8 @@ export default class Slider {
 
         this.slider.appendChild(filter);
         this.slider.appendChild(this.sliding_container);
+
+        console.log(this.filter_by_key)
 
         this.initSlider();
     }
@@ -133,27 +139,17 @@ export default class Slider {
         gsap.to(this.sliding_container, { x: 0, duration: 0 });
         gsap.to(this.data_container, { x: 0, duration: 0 });
     }
-    filterData(by) {
-        switch (by) {
-            case "hops":
-                this.activeData = this.data.hops;
-                break;
-            case "malts":
-                this.activeData = this.data.malts;
-                break;
-            case "yeasts":
-                this.activeData = this.data.yeasts;
-                break;
-        }
-        this.updateData();
+
+    updateFilter() {
+        this.filter_by_key.innerHTML = Object.keys(...this.activeData).map(key => "<option value=" + key + ">" + key.charAt(0).toUpperCase() + key.slice(1).toLowerCase() + "</option>").reduce((a, b) => a + b);
     }
+
     updateData(input) {
         this.data_container.innerHTML = "";
-        this.filter_by_key.innerHTML = Object.keys(...this.activeData).map(key => "<option value=" + key + ">" + key.charAt(0).toUpperCase() + key.slice(1).toLowerCase() + "</option>").reduce((a, b) => a + b);
 
         let activeDataFiltered;
         if (input) {
-            activeDataFiltered = this.activeData.filter(elem => elem.NAME.toLowerCase().includes(input.toLowerCase()));
+            activeDataFiltered = this.activeData.filter(elem => elem[this.filter_by_key.value].toLowerCase().includes(input.toLowerCase()));
             this.resetSlider();
         }
         else {

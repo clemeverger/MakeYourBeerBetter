@@ -47,7 +47,8 @@
 .slider {
   display: flex;
   flex-direction: column;
-  gap: 5rem; }
+  gap: 5rem;
+  min-width: 100vw; }
   .slider-filter {
     display: flex;
     gap: 2rem; }
