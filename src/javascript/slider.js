@@ -185,47 +185,67 @@ export default class Slider {
             card.appendChild(content_expanded);
 
             card.addEventListener("click", (e) => {
-                if (!this.openningCardsIsLocked) {
-                    this.expandTheCard(e);
-                }
+                this.cardAnimationController(e);
             })
             this.data_container.appendChild(card);
         });
     }
-    expandTheCard(e) {
-        let powerNumber = 4;
-        if (e.target != this.activeCard) {
-            this.activeCard = e.target;
-            gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: this.vw(10), marginRight: this.vw(10), ease: 'power' + powerNumber + '.out' });
-            let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
-            let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b) - this.vw(10);
-            gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
-            this.sliderPosition = c;
-
-            let tl = gsap.timeline();
-            tl.to(this.activeCard.firstChild, { duration: 0.15, opacity: 0 });
-            tl.to(this.activeCard.firstChild, { duration: 0, display: "none" });
-            tl.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
-            tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
-        }
-        else {
-            gsap.to(this.activeCard, { width: this.settings.card.width, marginLeft: "0px", marginRight: "0px", ease: 'power' + powerNumber + '.out' });
-            let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
-            let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b) + this.vw(10);
-            gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
-            this.sliderPosition = c;
-
-            let tl = gsap.timeline();
-            tl.to(this.activeCard.lastChild, { duration: 0.15, opacity: 0 });
-            tl.to(this.activeCard.lastChild, { duration: 0, display: "none" });
-            tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
-            tl.to(this.activeCard.firstChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
-
-            this.activeCard = undefined;
+    cardAnimationController(e) {
+        if (!this.openningCardsIsLocked) {
+            if (e.target != this.activeCard) {
+                if (this.activeCard) {
+                    this.collapseActiveCard(e);
+                    setTimeout(() => {
+                        this.expandActiveCard(e);
+                    }, 300)
+                }
+                else {
+                    this.expandActiveCard(e);
+                }
+            }
+            else {
+                this.collapseActiveCard(e);
+            }
         }
     }
+
+    expandActiveCard(e) {
+        let powerNumber = 4;
+
+        this.activeCard = e.target;
+        gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: this.vw(10), marginRight: this.vw(10), ease: 'power' + powerNumber + '.out' });
+        let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
+        let b = this.getOffset(this.activeCard).left;
+        let c = this.sliderPosition + (a - b) - this.vw(10);
+        gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
+        this.sliderPosition = c;
+
+        let tl = gsap.timeline();
+        tl.to(this.activeCard.firstChild, { duration: 0.15, opacity: 0 });
+        tl.to(this.activeCard.firstChild, { duration: 0, display: "none" });
+        tl.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
+        tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
+    }
+
+    collapseActiveCard(e) {
+        let powerNumber = 4;
+
+        gsap.to(this.activeCard, { width: this.settings.card.width, marginLeft: "0px", marginRight: "0px", ease: 'power' + powerNumber + '.out' });
+        let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
+        let b = this.getOffset(this.activeCard).left;
+        let c = this.sliderPosition + (a - b) + this.vw(10);
+        gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
+        this.sliderPosition = c;
+
+        let tl = gsap.timeline();
+        tl.to(this.activeCard.lastChild, { duration: 0.15, opacity: 0 });
+        tl.to(this.activeCard.lastChild, { duration: 0, display: "none" });
+        tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
+        tl.to(this.activeCard.firstChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
+
+        this.activeCard = undefined;
+    }
+
     getOffset(el) {
         const rect = el.getBoundingClientRect();
         return {
