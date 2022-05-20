@@ -24,15 +24,20 @@
                 background: #CCC;
             }
 
-            .resultCalc{
-                li{
+            .resultCalc {
+                ul{
                     display: flex;
-                    justify-content: space-around;
-
-                    .p{
-                        text-align: left;
+                    flex-wrap: wrap;
+                    li {
+                        display: flex;
+                        justify-content: space-around;
+    
+                        .p {
+                            text-align: left;
+                        }
                     }
                 }
+                
             }
         }
 
@@ -45,5 +50,24 @@
             right: 0;
             z-index: -1;
         }
+    }
+}
+
+
+/* Composant *********************************************************************/
+
+.c-button {
+    width: fit-content;
+    color: black;
+    border: 1px solid black;
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 0.5em 1em;
+    box-shadow: 5px 5px 13px -6px rgba(0, 0, 0, 0.93);
+
+    .active {
+        color: white;
+        border: 1px solid white;
+        box-shadow: none;
     }
 }
