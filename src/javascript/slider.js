@@ -211,32 +211,31 @@ export default class Slider {
         });
     }
     cardAnimationController(e) {
-        let easing = 4;
-        let width = this.numberOnly(this.settings.card.width);
-        let eWidth = this.numberOnly(this.settings.card.eWidth);
-        let eMargin = this.numberOnly(this.settings.card.eMargin);
-
         if (!this.openningCardsIsLocked) {
             if (e.target != this.activeCard) {
                 if (this.activeCard) {
                     this.openningCardsIsLocked = true;
-                    this.collapseActiveCard(e, width, eWidth, eMargin, easing);
+                    this.collapseActiveCard(e);
                     setTimeout(() => {
-                        this.expandActiveCard(e, width, eWidth, eMargin, easing);
+                        this.expandActiveCard(e);
                         this.openningCardsIsLocked = false;
                     }, 300)
                 }
                 else {
-                    this.expandActiveCard(e, width, eWidth, eMargin, easing);
+                    this.expandActiveCard(e);
                 }
             }
             else {
-                this.collapseActiveCard(e, width, eWidth, eMargin, easing);
+                this.collapseActiveCard(e);
             }
         }
     }
 
-    expandActiveCard(e, width, eWidth, eMargin, easing) {
+    expandActiveCard(e) {
+        let easing = 4;
+        let eWidth = this.numberOnly(this.settings.card.eWidth);
+        let eMargin = this.numberOnly(this.settings.card.eMargin);
+
         this.activeCard = e.target;
         gsap.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
         let a = this.vw((100 - eWidth) / 2);
@@ -252,7 +251,11 @@ export default class Slider {
         tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
     }
 
-    collapseActiveCard(e, width, eWidth, eMargin, easing) {
+    collapseActiveCard(e) {
+        let easing = 4;
+        let width = this.numberOnly(this.settings.card.width);
+        let eMargin = this.numberOnly(this.settings.card.eMargin);
+
         gsap.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
         let a = this.vw((100 - width) / 2);
         let b = this.getOffset(this.activeCard).left;
