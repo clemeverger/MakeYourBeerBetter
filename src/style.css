@@ -103,6 +103,8 @@
       font-size: 10rem;
       white-space: nowrap;
       transform: translate(-50px, -100px); }
+    .slider-content--expanded button {
+      pointer-events: all; }
 
 .c-search .search {
   display: table; }

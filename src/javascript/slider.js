@@ -1,8 +1,5 @@
 //Revoir le responsive
-//Refactorer (margin ?)
-//Ajouter limite de slide
 //Revoir les easing
-
 //Ajouter le mode sélection pour douglas 
 
 export default class Slider {
@@ -20,7 +17,8 @@ export default class Slider {
                     "gap": "20px",
                     "eWidth": "70vw",
                     "eMargin": "10vw",
-                }
+                },
+                "selection": true
             }
         }
         this.slider = document.querySelector(destination);
@@ -126,7 +124,7 @@ export default class Slider {
 
         this.sliding_container.addEventListener("mousemove", (e) => {
             if (grabbing) {
-                if(this.activeCard){
+                if (this.activeCard) {
                     this.collapseActiveCard();
                 }
                 this.openningCardsIsLocked = true;
@@ -201,11 +199,15 @@ export default class Slider {
             <div>` + elem.NOTES + `</div>
             `;
 
+            this.settings.selection ? content_expanded.innerHTML += "<button class='btn-select'>Sélectionner</button>" : "";
+
             card.appendChild(content_collapsed);
             card.appendChild(content_expanded);
 
             card.addEventListener("click", (e) => {
-                this.cardAnimationController(e);
+                if (e.target.classList.contains("slider-card")) {
+                    this.cardAnimationController(e);
+                }
             })
             this.data_container.appendChild(card);
         });
@@ -284,7 +286,7 @@ export default class Slider {
         return (v * w) / 100;
     }
 
-    numberOnly(str){
-        return str.replace(/[^0-9]/g,'');
+    numberOnly(str) {
+        return str.replace(/[^0-9]/g, '');
     }
 }
