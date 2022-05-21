@@ -15,9 +15,9 @@ window.addEventListener("load", () => {
 
 async function main() {
     let slider = new Slider(".slider", await getData());
-    document.querySelectorAll('.btn-select').forEach(elem => {   
-        elem.addEventListener('click', (e) => {
-            console.log('selected id :', slider.getSelection());
-        })
+    document.addEventListener('click',(e) => {
+        if(e.target.classList.contains("btn-select")){
+            console.log(slider.getSelection());
+        }
     })
 }  

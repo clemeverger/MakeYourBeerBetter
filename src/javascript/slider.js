@@ -32,6 +32,8 @@ export default class Slider {
 
         this.openningCardsIsLocked = false;
 
+        this.selection = 0;
+
         this.createSlider();
         this.updateFilter();
         this.updateData();
@@ -199,7 +201,15 @@ export default class Slider {
             <div>` + elem.NOTES + `</div>
             `;
 
-            this.settings.selection ? content_expanded.innerHTML += "<button class='btn-select'>Sélectionner</button>" : "";
+            if (this.settings.selection) {
+                let btn_select = document.createElement("button");
+                btn_select.setAttribute("class", "btn-select");
+                btn_select.innerHTML = "Sélectionner";
+                btn_select.addEventListener('click', (e) => {
+                    this.getSelection();
+                })
+                content_expanded.appendChild(btn_select);
+            }
 
             card.appendChild(content_collapsed);
             card.appendChild(content_expanded);
@@ -290,7 +300,7 @@ export default class Slider {
         return str.replace(/[^0-9]/g, '');
     }
 
-    getSelection(){
+    getSelection() {
         return this.activeData.filter(elem => elem.NAME == this.activeCard.id)[0];
     }
 }
