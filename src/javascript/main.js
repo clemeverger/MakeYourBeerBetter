@@ -17,7 +17,7 @@ async function main() {
     let slider = new Slider(".slider", await getData());
     document.querySelectorAll('.btn-select').forEach(elem => {   
         elem.addEventListener('click', (e) => {
-            console.log('selected id :', slider.activeCard.id);
+            console.log('selected id :', slider.getSelection());
         })
     })
 }  

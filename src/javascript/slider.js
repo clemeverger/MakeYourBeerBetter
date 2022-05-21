@@ -289,4 +289,8 @@ export default class Slider {
     numberOnly(str) {
         return str.replace(/[^0-9]/g, '');
     }
+
+    getSelection(){
+        return this.activeData.filter(elem => elem.NAME == this.activeCard.id)[0];
+    }
 }
