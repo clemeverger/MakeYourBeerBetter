@@ -1,6 +1,9 @@
-//Supprimer l'anti click
 //Revoir le responsive
 //Refactorer (margin ?)
+//Ajouter limite de slide
+//Revoir les easing
+
+//Ajouter le mode sélection pour douglas 
 
 export default class Slider {
     constructor(destination, data, settings) {
@@ -22,6 +25,7 @@ export default class Slider {
         this.slider = document.querySelector(destination);
         this.data = data;
 
+        this.activeFilter = "hops";
         this.activeData = this.data.hops;
 
         this.activeCard = undefined;
@@ -41,16 +45,15 @@ export default class Slider {
         filter_by_houblons.innerHTML = "Houblons";
         filter_by_houblons.addEventListener("click", () => {
             this.activeData = this.data.hops;
-            this.updateFilter();
+            this.updateFilter("hops");
             this.updateData();
         });
 
         let filter_by_malts = document.createElement("button");
         filter_by_malts.innerHTML = "Malts";
         filter_by_malts.addEventListener("click", (e) => {
-            console.log(e.target.innerHTML.toLowerCase());
             this.activeData = this.data.malts;
-            this.updateFilter();
+            this.updateFilter("malts");
             this.updateData();
         });
 
@@ -58,7 +61,7 @@ export default class Slider {
         filter_by_levures.innerHTML = "Levures";
         filter_by_levures.addEventListener("click", () => {
             this.activeData = this.data.yeasts;
-            this.updateFilter();
+            this.updateFilter("yeasts");
             this.updateData();
         });
 
@@ -87,8 +90,6 @@ export default class Slider {
         this.slider.appendChild(filter);
         this.slider.appendChild(this.sliding_container);
 
-        console.log(this.filter_by_key)
-
         this.initSlider();
     }
     initSlider() {
@@ -101,7 +102,6 @@ export default class Slider {
         this.sliding_container.addEventListener("mousedown", (e) => {
             clientX = e.clientX;
             grabbing = true;
-
         })
 
         this.sliding_container.addEventListener("mouseup", () => {
@@ -125,6 +125,9 @@ export default class Slider {
 
         this.sliding_container.addEventListener("mousemove", (e) => {
             if (grabbing) {
+                if(this.activeCard){
+                    this.collapseActiveCard();
+                }
                 this.openningCardsIsLocked = true;
                 let newClientX = e.clientX;
                 distanceToScroll = newClientX - clientX;
@@ -140,7 +143,10 @@ export default class Slider {
         gsap.to(this.data_container, { x: 0, duration: 0 });
     }
 
-    updateFilter() {
+    updateFilter(filter) {
+        if (filter) {
+            this.activeFilter = filter;
+        }
         this.filter_by_key.innerHTML = Object.keys(...this.activeData).map(key => "<option value=" + key + ">" + key.charAt(0).toUpperCase() + key.slice(1).toLowerCase() + "</option>").reduce((a, b) => a + b);
     }
 
@@ -167,12 +173,25 @@ export default class Slider {
 
             let content_collapsed = document.createElement("div");
             content_collapsed.setAttribute("class", "slider-content--collapsed");
-            content_collapsed.innerHTML = `
-            <div>` + elem.NAME + `</div>
-            <div>` + elem.ORIGIN + `</div>
-            <div>` + elem.TYPE + `</div>
-            <div>` + elem.INVENTORY + `</div>
-            `;
+
+            switch (this.activeFilter) {
+                case "yeasts":
+                    content_collapsed.innerHTML = `
+                    <div>` + elem.NAME + `</div>
+                    <div>` + elem.LABORATORY + `</div>
+                    <div>` + elem.TYPE + `</div>
+                    <div>` + elem.INVENTORY + `</div>
+                    `;
+                    break
+                default:
+                    content_collapsed.innerHTML = `
+                <div>` + elem.NAME + `</div>
+                <div>` + elem.ORIGIN + `</div>
+                <div>` + elem.TYPE + `</div>
+                <div>` + elem.INVENTORY + `</div>
+                `;
+                    break;
+            }
 
             let content_expanded = document.createElement("div");
             content_expanded.setAttribute("class", "slider-content--expanded");
@@ -194,9 +213,11 @@ export default class Slider {
         if (!this.openningCardsIsLocked) {
             if (e.target != this.activeCard) {
                 if (this.activeCard) {
+                    this.openningCardsIsLocked = true;
                     this.collapseActiveCard(e);
                     setTimeout(() => {
                         this.expandActiveCard(e);
+                        this.openningCardsIsLocked = false;
                     }, 300)
                 }
                 else {
