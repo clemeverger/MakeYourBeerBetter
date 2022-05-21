@@ -1,6 +1,6 @@
-//Revoir le responsive
+//Revoir le style
 //Revoir les easing
-//Ajouter le mode sélection pour douglas 
+//Revoir les timings
 
 export default class Slider {
     constructor(destination, data, settings) {
@@ -12,7 +12,7 @@ export default class Slider {
             //DEFAULT SETTINGS
             this.settings = {
                 "card": {
-                    "height": "50vh",
+                    "height": "55vh",
                     "width": "20vw",
                     "gap": "20px",
                     "eWidth": "70vw",
@@ -70,6 +70,9 @@ export default class Slider {
         input.addEventListener("input", (e) => {
             this.updateData(e.target.value);
         })
+        input.addEventListener("keydown", (e) => {
+            this.updateData(e.target.value);
+        })
 
         this.filter_by_key = document.createElement("select");
 
@@ -120,7 +123,7 @@ export default class Slider {
                 temp = distanceToScroll;
                 setTimeout(() => {
                     this.openningCardsIsLocked = false;
-                }, 1);
+                });
             }
         }
 
@@ -131,6 +134,7 @@ export default class Slider {
                 }
                 this.openningCardsIsLocked = true;
                 let newClientX = e.clientX;
+
                 distanceToScroll = newClientX - clientX;
                 let offset = distanceToScroll + this.prevDistanceScrolled;
                 gsap.to(this.sliding_container, { x: offset });
@@ -140,8 +144,8 @@ export default class Slider {
     resetSlider() {
         this.prevDistanceScrolled = 0;
         this.sliderPosition = 0;
-        gsap.to(this.sliding_container, { x: 0, duration: 0 });
-        gsap.to(this.data_container, { x: 0, duration: 0 });
+        gsap.to(this.sliding_container, { x: 0, duration: 2 });
+        gsap.to(this.data_container, { x: 0, duration: 2 });
     }
 
     updateFilter(filter) {
@@ -199,6 +203,22 @@ export default class Slider {
             content_expanded.innerHTML = `
             <h3>` + elem.NAME + `</h3>
             <div>` + elem.NOTES + `</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
             `;
 
             if (this.settings.selection) {
@@ -206,6 +226,7 @@ export default class Slider {
                 btn_select.setAttribute("class", "btn-select");
                 btn_select.innerHTML = "Sélectionner";
                 btn_select.addEventListener('click', (e) => {
+                    //FOR TRIGGER
                     setTimeout(() => {
                         this.collapseActiveCard();
                     })
@@ -250,19 +271,20 @@ export default class Slider {
         let eWidth = this.numberOnly(this.settings.card.eWidth);
         let eMargin = this.numberOnly(this.settings.card.eMargin);
 
+        let tl = gsap.timeline();
+
         this.activeCard = e.target;
-        gsap.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
+        tl.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
         let a = this.vw((100 - eWidth) / 2);
         let b = this.getOffset(this.activeCard).left;
         let c = this.sliderPosition + (a - b) - this.vw(eMargin);
-        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
+        tl.to(this.data_container, { x: c, ease: 'power' + easing + '.out' }, "<");
         this.sliderPosition = c;
 
-        let tl = gsap.timeline();
-        tl.to(this.activeCard.firstChild, { duration: 0.15, opacity: 0 });
+        tl.to(this.activeCard.firstChild, { duration: 0, opacity: 0 });
         tl.to(this.activeCard.firstChild, { duration: 0, display: "none" });
         tl.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
-        tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
+        tl.to(this.activeCard.lastChild, { duration: .30, opacity: 1 });
     }
 
     collapseActiveCard(e) {
@@ -270,18 +292,19 @@ export default class Slider {
         let width = this.numberOnly(this.settings.card.width);
         let eMargin = this.numberOnly(this.settings.card.eMargin);
 
-        gsap.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
+        let tl = gsap.timeline();
+
+        tl.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
         let a = this.vw((100 - width) / 2);
         let b = this.getOffset(this.activeCard).left;
         let c = this.sliderPosition + (a - b) + this.vw(eMargin);
-        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
+        tl.to(this.data_container, { x: c, ease: 'power' + easing + '.out' }, "<");
         this.sliderPosition = c;
 
-        let tl = gsap.timeline();
-        tl.to(this.activeCard.lastChild, { duration: 0.15, opacity: 0 });
-        tl.to(this.activeCard.lastChild, { duration: 0, display: "none" });
-        tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
-        tl.to(this.activeCard.firstChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
+        tl.to(this.activeCard.lastChild, { duration: 0, opacity: 0 }, "<");
+        tl.to(this.activeCard.lastChild, { duration: 0, display: "none" }, "<");
+        tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" }, "<");
+        tl.to(this.activeCard.firstChild, { duration: 0, opacity: 1 }, "<");
 
         this.activeCard = undefined;
     }
