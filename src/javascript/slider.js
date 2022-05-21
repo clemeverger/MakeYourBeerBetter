@@ -200,27 +200,10 @@ export default class Slider {
 
             let content_expanded = document.createElement("div");
             content_expanded.setAttribute("class", "slider-content--expanded");
-            content_expanded.innerHTML = `
-            <h3>` + elem.NAME + `</h3>
-            <div>` + elem.NOTES + `</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            `;
-
+            for (let i = 0; i < Object.keys(elem).length; i++) {
+                content_expanded.innerHTML+= "<div>" + Object.keys(elem)[i] + " : " + elem[Object.keys(elem)[i]] + "</div>";
+            }
+            
             if (this.settings.selection) {
                 let btn_select = document.createElement("button");
                 btn_select.setAttribute("class", "btn-select");
