@@ -17,8 +17,9 @@ export default class Slider {
                 "card": {
                     "height": "50vh",
                     "width": "20vw",
-                    "eWidth": "70vw",
                     "gap": "20px",
+                    "eWidth": "70vw",
+                    "eMargin": "10vw",
                 }
             }
         }
@@ -210,35 +211,38 @@ export default class Slider {
         });
     }
     cardAnimationController(e) {
+        let easing = 4;
+        let width = this.numberOnly(this.settings.card.width);
+        let eWidth = this.numberOnly(this.settings.card.eWidth);
+        let eMargin = this.numberOnly(this.settings.card.eMargin);
+
         if (!this.openningCardsIsLocked) {
             if (e.target != this.activeCard) {
                 if (this.activeCard) {
                     this.openningCardsIsLocked = true;
-                    this.collapseActiveCard(e);
+                    this.collapseActiveCard(e, width, eWidth, eMargin, easing);
                     setTimeout(() => {
-                        this.expandActiveCard(e);
+                        this.expandActiveCard(e, width, eWidth, eMargin, easing);
                         this.openningCardsIsLocked = false;
                     }, 300)
                 }
                 else {
-                    this.expandActiveCard(e);
+                    this.expandActiveCard(e, width, eWidth, eMargin, easing);
                 }
             }
             else {
-                this.collapseActiveCard(e);
+                this.collapseActiveCard(e, width, eWidth, eMargin, easing);
             }
         }
     }
 
-    expandActiveCard(e) {
-        let powerNumber = 4;
-
+    expandActiveCard(e, width, eWidth, eMargin, easing) {
         this.activeCard = e.target;
-        gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: this.vw(10), marginRight: this.vw(10), ease: 'power' + powerNumber + '.out' });
-        let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
+        gsap.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
+        let a = this.vw((100 - eWidth) / 2);
         let b = this.getOffset(this.activeCard).left;
-        let c = this.sliderPosition + (a - b) - this.vw(10);
-        gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
+        let c = this.sliderPosition + (a - b) - this.vw(eMargin);
+        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
         this.sliderPosition = c;
 
         let tl = gsap.timeline();
@@ -248,14 +252,12 @@ export default class Slider {
         tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
     }
 
-    collapseActiveCard(e) {
-        let powerNumber = 4;
-
-        gsap.to(this.activeCard, { width: this.settings.card.width, marginLeft: "0px", marginRight: "0px", ease: 'power' + powerNumber + '.out' });
-        let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
+    collapseActiveCard(e, width, eWidth, eMargin, easing) {
+        gsap.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
+        let a = this.vw((100 - width) / 2);
         let b = this.getOffset(this.activeCard).left;
-        let c = this.sliderPosition + (a - b) + this.vw(10);
-        gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
+        let c = this.sliderPosition + (a - b) + this.vw(eMargin);
+        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
         this.sliderPosition = c;
 
         let tl = gsap.timeline();
@@ -277,5 +279,9 @@ export default class Slider {
     vw(v) {
         var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         return (v * w) / 100;
+    }
+
+    numberOnly(str){
+        return str.replace(/[^0-9]/g,'');
     }
 }
