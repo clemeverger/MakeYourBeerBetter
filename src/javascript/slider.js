@@ -201,15 +201,7 @@ export default class Slider {
             <div>` + elem.NOTES + `</div>
             `;
 
-            if (this.settings.selection) {
-                let btn_select = document.createElement("button");
-                btn_select.setAttribute("class", "btn-select");
-                btn_select.innerHTML = "Sélectionner";
-                btn_select.addEventListener('click', (e) => {
-                    this.getSelection();
-                })
-                content_expanded.appendChild(btn_select);
-            }
+            this.settings.selection ? content_expanded.innerHTML += "<button class='btn-select'>Sélectionner</button>" : "";
 
             card.appendChild(content_collapsed);
             card.appendChild(content_expanded);
