@@ -23,6 +23,17 @@
                 margin: 0 auto;
                 background: #CCC;
             }
+
+            .resultCalc{
+                li{
+                    display: flex;
+                    justify-content: space-around;
+
+                    .p{
+                        text-align: left;
+                    }
+                }
+            }
         }
 
         .threejs {
