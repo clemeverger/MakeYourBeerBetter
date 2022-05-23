@@ -4,23 +4,8 @@
 
 export default class Slider {
     constructor(destination, data, settings) {
-        //CUSTOM SETTINGS
-        if (this.settings) {
-            this.settings = settings;
-        }
-        else {
-            //DEFAULT SETTINGS
-            this.settings = {
-                "card": {
-                    "height": "55vh",
-                    "width": "20vw",
-                    "gap": "20px",
-                    "eWidth": "70vw",
-                    "eMargin": "10vw",
-                },
-                "selection": true
-            }
-        }
+        this.settings = settings;
+
         this.slider = document.querySelector(destination);
         this.data = data;
 
@@ -301,6 +286,9 @@ export default class Slider {
     }
 
     getSelection() {
-        return this.activeData.filter(elem => elem.NAME == this.activeCard.id)[0];
+        return {
+            "data" : this.activeData.filter(elem => elem.NAME == this.activeCard.id)[0],
+            "type" : this.activeFilter
+        }
     }
 }

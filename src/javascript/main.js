@@ -14,9 +14,20 @@ window.addEventListener("load", () => {
 });
 
 async function main() {
-    let slider = new Slider(".slider", await getData());
-    document.addEventListener('click',(e) => {
-        if(e.target.classList.contains("btn-select")){
+    let settings = {
+        "card": {
+            "height": "55vh",
+            "width": "20vw",
+            "gap": "20px",
+            "eWidth": "70vw",
+            "eMargin": "10vw",
+        },
+        "selection": true
+    };
+    let slider = new Slider(".slider", await getData(), settings);
+
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains("btn-select")) {
             console.log(slider.getSelection());
         }
     })
