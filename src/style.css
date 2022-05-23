@@ -101,7 +101,6 @@
     font-size: 1.5vw;
     flex-direction: column;
     gap: 2rem;
-    opacity: 0;
     display: none;
     padding: 2rem;
     background-color: black;

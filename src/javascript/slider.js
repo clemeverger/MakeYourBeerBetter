@@ -254,20 +254,16 @@ export default class Slider {
         let eWidth = this.numberOnly(this.settings.card.eWidth);
         let eMargin = this.numberOnly(this.settings.card.eMargin);
 
-        let tl = gsap.timeline();
-
         this.activeCard = e.target;
-        tl.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
+        gsap.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
         let a = this.vw((100 - eWidth) / 2);
         let b = this.getOffset(this.activeCard).left;
         let c = this.sliderPosition + (a - b) - this.vw(eMargin);
-        tl.to(this.data_container, { x: c, ease: 'power' + easing + '.out' }, "<");
+        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
         this.sliderPosition = c;
 
-        tl.to(this.activeCard.firstChild, { duration: 0, opacity: 0 });
-        tl.to(this.activeCard.firstChild, { duration: 0, display: "none" });
-        tl.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
-        tl.to(this.activeCard.lastChild, { duration: .30, opacity: 1 });
+        gsap.to(this.activeCard.firstChild, { duration: 0, display: "none" });
+        gsap.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
     }
 
     collapseActiveCard(e) {
@@ -275,19 +271,15 @@ export default class Slider {
         let width = this.numberOnly(this.settings.card.width);
         let eMargin = this.numberOnly(this.settings.card.eMargin);
 
-        let tl = gsap.timeline();
-
-        tl.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
+        gsap.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
         let a = this.vw((100 - width) / 2);
         let b = this.getOffset(this.activeCard).left;
         let c = this.sliderPosition + (a - b) + this.vw(eMargin);
-        tl.to(this.data_container, { x: c, ease: 'power' + easing + '.out' }, "<");
+        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
         this.sliderPosition = c;
 
-        tl.to(this.activeCard.lastChild, { duration: 0, opacity: 0 }, "<");
-        tl.to(this.activeCard.lastChild, { duration: 0, display: "none" }, "<");
-        tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" }, "<");
-        tl.to(this.activeCard.firstChild, { duration: 0, opacity: 1 }, "<");
+        gsap.to(this.activeCard.lastChild, { duration: 0, display: "none" });
+        gsap.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
 
         this.activeCard = undefined;
     }
