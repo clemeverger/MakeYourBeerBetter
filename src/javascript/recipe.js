@@ -119,7 +119,6 @@ let sliderData = {
     ],
 }
 let table = document.querySelector('.table tbody');
-let addIngredient = document.querySelector('#add-ingredients');
 let ajoutElem = document.querySelector("#ajoutElem");
 
 // Déclaration des différents input de résultat des calculs
@@ -263,20 +262,19 @@ function calculEBC() // Calcul de la couleur
     return 2.94 * Math.pow(MCU, 0.6859);
 }
 
+////////
+
+
 if (document.querySelector('.table tr .elem'))
 {
     document.querySelector('.table').style.display = "block";
     document.querySelector('.resultCalc').style.display = "block";
 }
-else
-// {
-//     document.querySelector('.table').style.display = "none";
-//     document.querySelector('.resultCalc').style.display = "none";
-// }
+
 
 
 ajoutElem.addEventListener('click', function () {
-    console.log('ok');
+    //console.log('ok');
     //this.style.display = "none";
     table.style.display = "block";
     //addIngredient.style.display = "block";
@@ -299,39 +297,3 @@ ajoutElem.addEventListener('click', function () {
     cellTemps.innerHTML = sliderData.malts.TIME;
 })
 
-// addIngredient.addEventListener('click', function () {
-//     // Create an empty <tr> element
-//     let row = table.insertRow(1);
-
-//     // Insert new cells (<td> elements)
-//     let cellName = row.insertCell(0);
-//     let cellType = row.insertCell(1);
-//     let cellQuantite = row.insertCell(2);
-//     let cellEtape = row.insertCell(3);
-//     let cellTemps = row.insertCell(4);
-
-//     // Add some text to the new cells:
-//     cellName.innerHTML = sliderData.hops.NAME;
-//     cellType.innerHTML = sliderData.hops.TYPE;
-//     cellQuantite.innerHTML = "140 grs";
-//     cellEtape.innerHTML = "Empatage";
-//     cellTemps.innerHTML = "---";
-
-
-//     // Create an empty <tr> element
-//     let row1 = table.insertRow(1);
-
-//     // Insert new cells (<td> elements)
-//     let cellName = row1.insertCell(0);
-//     let cellType = row1.insertCell(1);
-//     let cellQuantite = row1.insertCell(2);
-//     let cellEtape = row1.insertCell(3);
-//     let cellTemps = row1.insertCell(4);
-
-//     // Add some text to the new cells:
-//     cellName.innerHTML = sliderData.yeasts.NAME;
-//     cellType.innerHTML = sliderData.yeasts.TYPE;
-//     cellQuantite.innerHTML = "100 ml";
-//     cellEtape.innerHTML = "---";
-//     cellTemps.innerHTML = "---";
-// })
