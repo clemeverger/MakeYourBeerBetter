@@ -1,23 +1,15 @@
+//Revoir le style
+//Revoir les easing
+//Revoir les timings
+
 export default class Slider {
     constructor(destination, data, settings) {
-        //CUSTOM SETTINGS
-        if (this.settings) {
-            this.settings = settings;
-        }
-        else {
-            //DEFAULT SETTINGS
-            this.settings = {
-                "card": {
-                    "height": "50vh",
-                    "width": "20vw",
-                    "eWidth": "70vw",
-                    "gap": "20px",
-                }
-            }
-        }
+        this.settings = settings;
+
         this.slider = document.querySelector(destination);
         this.data = data;
 
+        this.activeFilter = "hops";
         this.activeData = this.data.hops;
 
         this.activeCard = undefined;
@@ -25,7 +17,10 @@ export default class Slider {
 
         this.openningCardsIsLocked = false;
 
+        this.selection = 0;
+
         this.createSlider();
+        this.updateFilter();
         this.updateData();
     }
     createSlider() {
@@ -35,24 +30,42 @@ export default class Slider {
         let filter_by_houblons = document.createElement("button");
         filter_by_houblons.innerHTML = "Houblons";
         filter_by_houblons.addEventListener("click", () => {
-            this.filterData("hops");
+            this.activeData = this.data.hops;
+            this.updateFilter("hops");
+            this.updateData();
         });
 
         let filter_by_malts = document.createElement("button");
         filter_by_malts.innerHTML = "Malts";
-        filter_by_malts.addEventListener("click", () => {
-            this.filterData("malts");
+        filter_by_malts.addEventListener("click", (e) => {
+            this.activeData = this.data.malts;
+            this.updateFilter("malts");
+            this.updateData();
         });
 
         let filter_by_levures = document.createElement("button");
         filter_by_levures.innerHTML = "Levures";
         filter_by_levures.addEventListener("click", () => {
-            this.filterData("yeasts");
+            this.activeData = this.data.yeasts;
+            this.updateFilter("yeasts");
+            this.updateData();
         });
+
+        let input = document.createElement("input");
+        input.addEventListener("input", (e) => {
+            this.updateData(e.target.value);
+        })
+        input.addEventListener("keydown", (e) => {
+            this.updateData(e.target.value);
+        })
+
+        this.filter_by_key = document.createElement("select");
 
         filter.appendChild(filter_by_houblons);
         filter.appendChild(filter_by_malts);
         filter.appendChild(filter_by_levures);
+        filter.appendChild(this.filter_by_key);
+        filter.appendChild(input);
 
         this.data_container = document.createElement("div");
         this.data_container.setAttribute("class", "slider-data_container");
@@ -71,10 +84,9 @@ export default class Slider {
     initSlider() {
         let clientX = null;
         let grabbing = false;
-        let prevDistanceScrolled = null;
+        this.prevDistanceScrolled = null;
         let distanceToScroll;
-
-        let temp = 0;
+        let temp;
 
         this.sliding_container.addEventListener("mousedown", (e) => {
             clientX = e.clientX;
@@ -82,48 +94,65 @@ export default class Slider {
         })
 
         this.sliding_container.addEventListener("mouseup", () => {
+            slidingEnding();
+        })
+
+        this.sliding_container.addEventListener("mouseleave", () => {
+            slidingEnding();
+        })
+
+        const slidingEnding = () => {
             grabbing = false;
             if (distanceToScroll != temp) {
-                prevDistanceScrolled += distanceToScroll;
+                this.prevDistanceScrolled += distanceToScroll;
                 temp = distanceToScroll;
                 setTimeout(() => {
                     this.openningCardsIsLocked = false;
-                }, 10);
+                });
             }
-            else {
-                console.log("ERROR");
-            }
-        })
+        }
 
         this.sliding_container.addEventListener("mousemove", (e) => {
             if (grabbing) {
+                if (this.activeCard) {
+                    this.collapseActiveCard();
+                }
                 this.openningCardsIsLocked = true;
                 let newClientX = e.clientX;
+
                 distanceToScroll = newClientX - clientX;
-                let offset = distanceToScroll + prevDistanceScrolled;
+                let offset = distanceToScroll + this.prevDistanceScrolled;
                 gsap.to(this.sliding_container, { x: offset });
             }
         })
     }
-    filterData(by) {
-        switch (by) {
-            case "hops":
-                this.activeData = this.data.hops;
-                this.data_container.innerHTML = "";
-                break;
-            case "malts":
-                this.activeData = this.data.malts;
-                this.data_container.innerHTML = "";
-                break;
-            case "yeasts":
-                this.activeData = this.data.yeasts;
-                this.data_container.innerHTML = "";
-                break;
-        }
-        this.updateData();
+    resetSlider() {
+        this.prevDistanceScrolled = 0;
+        this.sliderPosition = 0;
+        gsap.to(this.sliding_container, { x: 0, duration: 2 });
+        gsap.to(this.data_container, { x: 0, duration: 2 });
     }
-    updateData() {
-        this.activeData.forEach(elem => {
+
+    updateFilter(filter) {
+        if (filter) {
+            this.activeFilter = filter;
+        }
+        this.filter_by_key.innerHTML = Object.keys(...this.activeData).map(key => "<option value=" + key + ">" + key.charAt(0).toUpperCase() + key.slice(1).toLowerCase() + "</option>").reduce((a, b) => a + b);
+    }
+
+    updateData(input) {
+        this.data_container.innerHTML = "";
+
+        let activeDataFiltered;
+        if (input) {
+            activeDataFiltered = this.activeData.filter(elem => elem[this.filter_by_key.value].toLowerCase().includes(input.toLowerCase()));
+            this.resetSlider();
+        }
+        else {
+            activeDataFiltered = this.activeData;
+        }
+
+        activeDataFiltered.forEach(elem => {
             let card = document.createElement("div");
             card.setAttribute("class", "slider-card");
 
@@ -134,65 +163,112 @@ export default class Slider {
 
             let content_collapsed = document.createElement("div");
             content_collapsed.setAttribute("class", "slider-content--collapsed");
-            content_collapsed.innerHTML = `
-            <div>` + elem.NAME + `</div>
-            <div>` + elem.ORIGIN + `</div>
-            <div>` + elem.TYPE + `</div>
-            <div>` + elem.INVENTORY + `</div>
-            `;
+
+            switch (this.activeFilter) {
+                case "yeasts":
+                    content_collapsed.innerHTML = `
+                    <div>` + elem.NAME + `</div>
+                    <div>` + elem.LABORATORY + `</div>
+                    <div>` + elem.TYPE + `</div>
+                    <div>` + elem.INVENTORY + `</div>
+                    `;
+                    break
+                default:
+                    content_collapsed.innerHTML = `
+                <div>` + elem.NAME + `</div>
+                <div>` + elem.ORIGIN + `</div>
+                <div>` + elem.TYPE + `</div>
+                <div>` + elem.INVENTORY + `</div>
+                `;
+                    break;
+            }
 
             let content_expanded = document.createElement("div");
             content_expanded.setAttribute("class", "slider-content--expanded");
-            content_expanded.innerHTML = `
-            <h3>` + elem.NAME + `</h3>
-            <div>` + elem.NOTES + `</div>
-            `;
+            for (let i = 0; i < Object.keys(elem).length; i++) {
+                content_expanded.innerHTML+= "<div>" + Object.keys(elem)[i] + " : " + elem[Object.keys(elem)[i]] + "</div>";
+            }
+            
+            if (this.settings.selection) {
+                let btn_select = document.createElement("button");
+                btn_select.setAttribute("class", "btn-select");
+                btn_select.innerHTML = "Sélectionner";
+                btn_select.addEventListener('click', (e) => {
+                    //FOR TRIGGER
+                    setTimeout(() => {
+                        this.collapseActiveCard();
+                    })
+                })
+                content_expanded.appendChild(btn_select);
+            }
 
             card.appendChild(content_collapsed);
             card.appendChild(content_expanded);
 
             card.addEventListener("click", (e) => {
-                if (!this.openningCardsIsLocked) {
-                    this.expandTheCard(e);
+                if (e.target.classList.contains("slider-card")) {
+                    this.cardAnimationController(e);
                 }
             })
             this.data_container.appendChild(card);
         });
     }
-    expandTheCard(e) {
-        let powerNumber = 4;
-        if (e.target != this.activeCard) {
-            this.activeCard = e.target;
-            gsap.to(this.activeCard, { width: this.settings.card.eWidth, marginLeft: "200px", marginRight: "200px", ease: 'power' + powerNumber + '.out' });
-            let a = this.vw((100 - this.settings.card.eWidth.substr(0, 2)) / 2);
-            let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b) - 200;
-            gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
-            this.sliderPosition = c;
-
-            let tl = gsap.timeline();
-            tl.to(this.activeCard.firstChild, { duration: 0.15, opacity: 0 });
-            tl.to(this.activeCard.firstChild, { duration: 0, display: "none" });
-            tl.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
-            tl.to(this.activeCard.lastChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
-        }
-        else {
-            gsap.to(this.activeCard, { width: this.settings.card.width, marginLeft: "0px", marginRight: "0px", ease: 'power' + powerNumber + '.out' });
-            let a = this.vw((100 - this.settings.card.width.substr(0, 2)) / 2);
-            let b = this.getOffset(this.activeCard).left;
-            let c = this.sliderPosition + (a - b) + 200;
-            gsap.to(this.data_container, { x: c, ease: 'power' + powerNumber + '.out' });
-            this.sliderPosition = c;
-
-            let tl = gsap.timeline();
-            tl.to(this.activeCard.lastChild, { duration: 0.15, opacity: 0 });
-            tl.to(this.activeCard.lastChild, { duration: 0, display: "none" });
-            tl.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
-            tl.to(this.activeCard.firstChild, { duration: 0.30, opacity: 1, ease: "power0.out" });
-
-            this.activeCard = undefined;
+    cardAnimationController(e) {
+        if (!this.openningCardsIsLocked) {
+            if (e.target != this.activeCard) {
+                if (this.activeCard) {
+                    this.openningCardsIsLocked = true;
+                    this.collapseActiveCard(e);
+                    setTimeout(() => {
+                        this.expandActiveCard(e);
+                        this.openningCardsIsLocked = false;
+                    }, 300)
+                }
+                else {
+                    this.expandActiveCard(e);
+                }
+            }
+            else {
+                this.collapseActiveCard(e);
+            }
         }
     }
+
+    expandActiveCard(e) {
+        let easing = 4;
+        let eWidth = this.numberOnly(this.settings.card.eWidth);
+        let eMargin = this.numberOnly(this.settings.card.eMargin);
+
+        this.activeCard = e.target;
+        gsap.to(this.activeCard, { width: eWidth + "vw", marginLeft: this.vw(eMargin), marginRight: this.vw(eMargin), ease: 'power' + easing + '.out' });
+        let a = this.vw((100 - eWidth) / 2);
+        let b = this.getOffset(this.activeCard).left;
+        let c = this.sliderPosition + (a - b) - this.vw(eMargin);
+        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
+        this.sliderPosition = c;
+
+        gsap.to(this.activeCard.firstChild, { duration: 0, display: "none" });
+        gsap.to(this.activeCard.lastChild, { duration: 0, display: "flex" });
+    }
+
+    collapseActiveCard(e) {
+        let easing = 4;
+        let width = this.numberOnly(this.settings.card.width);
+        let eMargin = this.numberOnly(this.settings.card.eMargin);
+
+        gsap.to(this.activeCard, { width: width + "vw", marginLeft: "0px", marginRight: "0px", ease: 'power' + easing + '.out' });
+        let a = this.vw((100 - width) / 2);
+        let b = this.getOffset(this.activeCard).left;
+        let c = this.sliderPosition + (a - b) + this.vw(eMargin);
+        gsap.to(this.data_container, { x: c, ease: 'power' + easing + '.out' });
+        this.sliderPosition = c;
+
+        gsap.to(this.activeCard.lastChild, { duration: 0, display: "none" });
+        gsap.to(this.activeCard.firstChild, { duration: 0, display: "flex" });
+
+        this.activeCard = undefined;
+    }
+
     getOffset(el) {
         const rect = el.getBoundingClientRect();
         return {
@@ -203,5 +279,16 @@ export default class Slider {
     vw(v) {
         var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         return (v * w) / 100;
+    }
+
+    numberOnly(str) {
+        return str.replace(/[^0-9]/g, '');
+    }
+
+    getSelection() {
+        return {
+            "data" : this.activeData.filter(elem => elem.NAME == this.activeCard.id)[0],
+            "type" : this.activeFilter
+        }
     }
 }
