@@ -17,7 +17,7 @@ let sliderData = {
             "INVENTORY": "2000.0 g",
             "DISPLAY_TIME": "60.0 min",
             "MASSE": "120",
-            "TIME" : "60"
+            "TIME": "60"
         },
         {
             "NAME": "Ahtanum",
@@ -36,7 +36,7 @@ let sliderData = {
             "INVENTORY": "2000.0 g",
             "DISPLAY_TIME": "0.0 min",
             "MASSE": "580",
-            "TIME" : "20"
+            "TIME": "20"
         },
     ],
     "malts": [
@@ -118,9 +118,7 @@ let sliderData = {
         },
     ],
 }
-
 let table = document.querySelector('.table tbody');
-let addIngredient = document.querySelector('#add-ingredients');
 let ajoutElem = document.querySelector("#ajoutElem");
 
 // Déclaration des différents input de résultat des calculs
@@ -145,9 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 ajoutElem.addEventListener('click', function () {
-    this.style.display = "none";
+    //this.style.display = "none";
     table.style.display = "block";
-    addIngredient.style.display = "block";
+    //addIngredient.style.display = "block";
 
     totalMaltRecipe.innerHTML = somme("malts", "MASSE") + " Kgs";
     totalHopsRecipe.innerHTML = somme("hops", "MASSE") + " Grs";
@@ -157,6 +155,7 @@ ajoutElem.addEventListener('click', function () {
     EBCRecipe.innerHTML = Math.round(calculEBC());
     ABVRecipe.innerHTML = calculABV().toFixed(1) + " %";
 })
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTION //////////////////////////////////////
@@ -263,63 +262,38 @@ function calculEBC() // Calcul de la couleur
     return 2.94 * Math.pow(MCU, 0.6859);
 }
 
-
-// ajoutElem.addEventListener('click', function () {
-//     this.style.display = "none";
-//     table.style.display = "block";
-//     addIngredient.style.display = "block";
-
-//     // Create an empty <tr> element
-//     var row = table.insertRow(0);
-
-//     // Insert new cells (<td> elements)
-//     let cellName = row.insertCell(0);
-//     let cellType = row.insertCell(1);
-//     let cellQuantite = row.insertCell(2);
-//     let cellEtape = row.insertCell(3);
-//     let cellTemps = row.insertCell(4);
-
-//     // Add some text to the new cells:
-//     cellName.innerHTML = sliderData.malts.NAME;
-//     cellType.innerHTML = sliderData.malts.TYPE;
-//     cellQuantite.innerHTML = "12 kgs";
-//     cellEtape.innerHTML = "Empatage";
-//     cellTemps.innerHTML = "---";
-// })
-
-// addIngredient.addEventListener('click', function () {
-//     // Create an empty <tr> element
-//     let row = table.insertRow(1);
-
-//     // Insert new cells (<td> elements)
-//     let cellName = row.insertCell(0);
-//     let cellType = row.insertCell(1);
-//     let cellQuantite = row.insertCell(2);
-//     let cellEtape = row.insertCell(3);
-//     let cellTemps = row.insertCell(4);
-
-//     // Add some text to the new cells:
-//     cellName.innerHTML = sliderData.hops.NAME;
-//     cellType.innerHTML = sliderData.hops.TYPE;
-//     cellQuantite.innerHTML = "140 grs";
-//     cellEtape.innerHTML = "Empatage";
-//     cellTemps.innerHTML = "---";
+////////
 
 
-//     // Create an empty <tr> element
-//     let row1 = table.insertRow(1);
+if (document.querySelector('.table tr .elem'))
+{
+    document.querySelector('.table').style.display = "block";
+    document.querySelector('.resultCalc').style.display = "block";
+}
 
-//     // Insert new cells (<td> elements)
-//     let cellName = row1.insertCell(0);
-//     let cellType = row1.insertCell(1);
-//     let cellQuantite = row1.insertCell(2);
-//     let cellEtape = row1.insertCell(3);
-//     let cellTemps = row1.insertCell(4);
 
-//     // Add some text to the new cells:
-//     cellName.innerHTML = sliderData.yeasts.NAME;
-//     cellType.innerHTML = sliderData.yeasts.TYPE;
-//     cellQuantite.innerHTML = "100 ml";
-//     cellEtape.innerHTML = "---";
-//     cellTemps.innerHTML = "---";
-// })
+
+ajoutElem.addEventListener('click', function () {
+    //console.log('ok');
+    //this.style.display = "none";
+    table.style.display = "block";
+    //addIngredient.style.display = "block";
+
+    // Create an empty <tr> element
+    var row = table.insertRow(0);
+
+    // Insert new cells (<td> elements)
+    let cellName = row.insertCell(0);
+    let cellType = row.insertCell(1);
+    let cellQuantite = row.insertCell(2);
+    let cellEtape = row.insertCell(3);
+    let cellTemps = row.insertCell(4);
+
+    // Add some text to the new cells:
+    cellName.innerHTML = sliderData.malts;
+    cellType.innerHTML = sliderData.malts.TYPE;
+    cellQuantite.innerHTML = sliderData.malts.MASSE;
+    cellEtape.innerHTML = "Empatage";
+    cellTemps.innerHTML = sliderData.malts.TIME;
+})
+
