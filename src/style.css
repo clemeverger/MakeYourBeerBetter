@@ -21,6 +21,8 @@
 .recipe {
   width: 100%;
   height: 100%; }
+  .recipe h1 {
+    font-family: 'Montserrat', sans-serif; }
   .recipe .recipe-content {
     width: 100%;
     display: flex; }
@@ -35,10 +37,10 @@
         height: 60vh;
         margin: 0 auto;
         background: #CCC; }
-      .recipe .recipe-content .recap-recip .resultCalc li {
+      .recipe .recipe-content .recap-recip .resultCalc ul li {
         display: flex;
         justify-content: space-around; }
-        .recipe .recipe-content .recap-recip .resultCalc li .p {
+        .recipe .recipe-content .recap-recip .resultCalc ul li .p {
           text-align: left; }
     .recipe .recipe-content .threejs {
       width: calc((1/3)*100vw);
@@ -48,6 +50,21 @@
       top: 0;
       right: 0;
       z-index: -1; }
+
+/* Composant *********************************************************************/
+.c-button {
+  width: fit-content;
+  color: black;
+  border: 1px solid black;
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 0.5em 1em;
+  box-shadow: 5px 5px 13px -6px rgba(0, 0, 0, 0.93);
+  cursor: pointer; }
+  .c-button .active {
+    color: white;
+    border: 1px solid white;
+    box-shadow: none; }
 
 .slider {
   display: flex;
