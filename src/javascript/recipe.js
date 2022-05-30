@@ -130,6 +130,14 @@ let IBURecipe = document.querySelector('.resultCalc .IBU span');
 let EBCRecipe = document.querySelector('.resultCalc .EBC span');
 let ABVRecipe = document.querySelector('.resultCalc .ABV span');
 
+let totalMalts = document.getElementById('totalMalts')
+let totalHops = document.getElementById('totalHops')
+let originalDensity = document.getElementById('DO')
+let finalDensity = document.getElementById('DF')
+let bitterness = document.getElementById('IBU')
+let color = document.getElementById('EBC')
+let alcohol = document.getElementById('ABV')
+
 let userInput = {
     "beerName": "",
     "volume": "",
@@ -219,7 +227,7 @@ function calculDO(malts) // Calcul de la densité originelle du moût // PARAM :
 
 function calculDF() // Calcul de la densité finale
 {
-    let attenuation = getYeastsAttenuation
+    let attenuation = getYeastsAttenuation()
 
     return 1 + (((calculDO() * 1000 - 1000) * (1 - attenuation / 100)) / 1000)
 }
@@ -359,13 +367,7 @@ function removeFromRecipe(id) {
 }
 
 function renderBeerStats() {
-    let totalMalts = document.getElementById('totalMalts')
-    let totalHops = document.getElementById('totalHops')
-    let originalDensity = document.getElementById('DO')
-    let finalDensity = document.getElementById('DF')
-    let bitterness = document.getElementById('IBU')
-    let color = document.getElementById('EBC')
-    let alcohol = document.getElementById('ABV')
+
 
     totalMalts.innerHTML = getMaltsMass()
     totalHops.innerHTML = getHopsMass()
@@ -374,6 +376,16 @@ function renderBeerStats() {
     bitterness.innerHTML = calculIBU(getAllHops())
     color.innerHTML = calculEBC(getAllMalts())
     alcohol.innerHTML = calculABV()// calculABV
+}
+
+function resetBeerStats() {
+    totalMalts.innerHTML = ''
+    totalHops.innerHTML = ''
+    originalDensity.innerHTML = ''
+    finalDensity.innerHTML = ''
+    bitterness.innerHTML = ''
+    color.innerHTML = ''
+    alcohol.innerHTML = ''
 }
 
 function getAllMalts() {
