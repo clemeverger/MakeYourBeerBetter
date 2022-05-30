@@ -1,5 +1,6 @@
 import getData from './data-manager.js';
 import Slider from './slider.js'
+import getIngredient from './recipe.js'
 
 let activePage = "home";
 window.addEventListener("load", () => {
@@ -28,7 +29,7 @@ async function main() {
 
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains("btn-select")) {
-            console.log(slider.getSelection());
+            getIngredient(slider.getSelection())
         }
     })
 }  
