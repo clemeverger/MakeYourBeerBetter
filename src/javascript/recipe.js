@@ -333,23 +333,32 @@ export default function getIngredient(ing) {
 
     // event listeners
     buttonVal.addEventListener('click', () => {
-        addToRecipe(ing, id, inputStep.value, inputTmp.value, inputQty.value)
+       if(addToRecipe(ing, id, inputStep.value, inputTmp.value, inputQty.value)){
+        buttonVal.remove()
+       }
     })
     buttonCancel.addEventListener('click', () => {
-        removeFromRecipe(id)
+        recipeIngredients = removeFromRecipe(id)
+        table.deleteRow(0)
+        console.log({recipeIngredients})
     })
 }
 
 function addToRecipe(ing, id, step, tmp, qty) {
     if (!step || !tmp || !qty) {
         window.alert("Vous n'avez pas rempli tous les champs !")
+        return false
     } else {
         recipeIngredients.push({...ing, id, step, tmp, qty})
         console.log({recipeIngredients})
+        return true
     }
 
    
 }
 
 function removeFromRecipe(id) {
+    return recipeIngredients.filter(function(ing){ 
+        return ing.id != id; 
+    });
 }
