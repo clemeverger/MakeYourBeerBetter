@@ -138,11 +138,11 @@ let userInput = {
 };
 
 let steps = [
-     'Moût',
-     'Pré-ébullition',
-     'Ébullition',
-     'Whirlpool',
-     'Dryhop'
+    'Moût',
+    'Pré-ébullition',
+    'Ébullition',
+    'Whirlpool',
+    'Dryhop'
 ]
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -150,26 +150,12 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 
-// ajoutElem.addEventListener('click', function () {
-//     //this.style.display = "none";
-//     table.style.display = "block";
-//     //addIngredient.style.display = "block";
-
-//     totalMaltRecipe.innerHTML = somme("malts", "MASSE") + " Kgs";
-//     totalHopsRecipe.innerHTML = somme("hops", "MASSE") + " Grs";
-//     DORecipe.innerHTML = calculDO().toFixed(3);
-//     DFRecipe.innerHTML = calculDF().toFixed(3);
-//     IBURecipe.innerHTML = calculIBU();
-//     EBCRecipe.innerHTML = Math.round(calculEBC());
-//     ABVRecipe.innerHTML = calculABV().toFixed(1) + " %";
-// })
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTION //////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function getUserInputs()// Récupère la valeur des input (nom, volume, ébulition ,efficacité)
+function getUserInputs() // Récupère la valeur des input (nom, volume, ébulition ,efficacité)
 {
     document.querySelectorAll('.recipe input').forEach(input => {
         input.addEventListener('change', (e) => {
@@ -218,11 +204,13 @@ function qtSucre(masseGrain, potentielGrain, efficacite) // Calcul De la quantit
     return masseGrain * (potentielGrain / 100) * (efficacite / 100);
 }
 
-function calculDO() // Calcul de la densité originelle du moût
+function calculDO(malts) // Calcul de la densité originelle du moût // PARAM : tableau de malts
 {
+    console.log({ malts })
+
     let totalSucre = 0;
-    sliderData.malts.forEach(e => {
-        totalSucre += qtSucre(e.MASSE, e.YIELD, userInput.efficiency);
+    malts.forEach(malt => {
+        totalSucre += qtSucre(malt.qty, malt.data.YIELD, userInput.efficiency);
     });
 
     let DO = 1 + (383 * totalSucre / userInput.volume) / 1000;
@@ -231,7 +219,7 @@ function calculDO() // Calcul de la densité originelle du moût
 
 function calculDF() // Calcul de la densité finale
 {
-    let attenuation = somme("yeasts", "ATTENUATION");
+    let attenuation = getYeastsAttenuation
 
     return 1 + (((calculDO() * 1000 - 1000) * (1 - attenuation / 100)) / 1000)
 }
@@ -246,11 +234,11 @@ function calculIBUs(duree, volume, masseHoublon, totalAlpha) //
     return [1.65 * Math.pow(0.000125, calculDO() / 1000)] * [(1 - Math.pow(2.718281828459045235, (-0.04 * duree))) / 4.15] * (totalAlpha / 10 * masseHoublon * 74.90) / volume;
 }
 
-function calculIBU() // Calcul de l'amertume ()
+function calculIBU(hops) // Calcul de l'amertume () // envoyer en param un array des hops choisis
 {
     let IBUs = 0;
-    sliderData.hops.forEach(e => {
-        IBUs += calculIBUs(e.TIME, userInput.volume, e.MASSE, e.ALPHA);
+    hops.forEach(hop => {
+        IBUs += calculIBUs(hop.data.TIME, userInput.volume, hop.qty, hop.data.ALPHA);
     });
 
     return Math.round(IBUs * 10) / 10;
@@ -261,11 +249,11 @@ function calculMCU(EBC, masseMalts, volume) // Calcul de l'apport en EBC de chaq
     return 4.24 * EBC * masseMalts / volume;
 }
 
-function calculEBC() // Calcul de la couleur
+function calculEBC(malts) // Calcul de la couleur // envoyer en param un array des malts choisis
 {
     let MCU = 0;
-    sliderData.malts.forEach(e => {
-        MCU += calculMCU(e.DISPLAY_COLOR.replace('EBC', ''), e.MASSE, userInput.volume);
+    malts.forEach(malt => {
+        MCU += calculMCU(malt.data.DISPLAY_COLOR.replace('EBC', ''), malt.qty, userInput.volume);
     });
     return 2.94 * Math.pow(MCU, 0.6859);
 }
@@ -309,8 +297,8 @@ export default function getIngredient(ing) {
     // Add some content to the new cells:
     cellName.innerHTML = ing.data.NAME;
     cellType.innerHTML = ing.type;
-    cellQuantite.innerHTML = `<input type="number" id="${'qty'+id}" name="quantite" step=10>`
-    cellEtape.innerHTML = `<select  id="${'step'+id}" name="etape">
+    cellQuantite.innerHTML = `<input type="number" id="${'qty' + id}" name="quantite" step=10>`
+    cellEtape.innerHTML = `<select  id="${'step' + id}" name="etape">
     <option value="${steps[0]}">${steps[0]}</option>
     <option value="${steps[1]}">${steps[1]}</option>
     <option value="${steps[2]}">${steps[2]}</option>
@@ -318,29 +306,29 @@ export default function getIngredient(ing) {
     <option value="${steps[4]}">${steps[4]}</option>
     </select>
     `
-    cellTemps.innerHTML = `<input type="number" id="${'tmp'+id}" name="temps" step=5>`
-    cellValider.innerHTML = `<button id="${'val'+id}">Valider</button>`
-    cellAnnuler.innerHTML = `<button id="${'can'+id}">Annuler</button>`
+    cellTemps.innerHTML = `<input type="number" id="${'tmp' + id}" name="temps" step=5>`
+    cellValider.innerHTML = `<button id="${'val' + id}">Valider</button>`
+    cellAnnuler.innerHTML = `<button id="${'can' + id}">Annuler</button>`
 
 
     // To watch elements further
-    let inputStep = document.getElementById('step'+id)
-    let inputTmp = document.getElementById('tmp'+id)
-    let inputQty = document.getElementById('qty'+id)
-    let buttonVal = document.getElementById('val'+id)
-    let buttonCancel = document.getElementById('can'+id)
+    let inputStep = document.getElementById('step' + id)
+    let inputTmp = document.getElementById('tmp' + id)
+    let inputQty = document.getElementById('qty' + id)
+    let buttonVal = document.getElementById('val' + id)
+    let buttonCancel = document.getElementById('can' + id)
 
 
     // event listeners
     buttonVal.addEventListener('click', () => {
-       if(addToRecipe(ing, id, inputStep.value, inputTmp.value, inputQty.value)){
-        buttonVal.remove()
-       }
+        if (addToRecipe(ing, id, inputStep.value, inputTmp.value, inputQty.value)) {
+            buttonVal.remove()
+        }
     })
     buttonCancel.addEventListener('click', () => {
         recipeIngredients = removeFromRecipe(id)
         table.deleteRow(0)
-        console.log({recipeIngredients})
+        console.log({ recipeIngredients })
     })
 }
 
@@ -349,16 +337,81 @@ function addToRecipe(ing, id, step, tmp, qty) {
         window.alert("Vous n'avez pas rempli tous les champs !")
         return false
     } else {
-        recipeIngredients.push({...ing, id, step, tmp, qty})
-        console.log({recipeIngredients})
-        return true
+        if (isOneOfEachInIt()) {
+            recipeIngredients.push({ ...ing, id, step, tmp, qty })
+            renderBeerStats()
+            return true
+        } else {
+            recipeIngredients.push({ ...ing, id, step, tmp, qty })
+            return true
+        }
+
+
     }
 
-   
+
 }
 
 function removeFromRecipe(id) {
-    return recipeIngredients.filter(function(ing){ 
-        return ing.id != id; 
+    return recipeIngredients.filter(function (ing) {
+        return ing.id != id;
     });
+}
+
+function renderBeerStats() {
+    let totalMalts = document.getElementById('totalMalts')
+    let totalHops = document.getElementById('totalHops')
+    let originalDensity = document.getElementById('DO')
+    let finalDensity = document.getElementById('DF')
+    let bitterness = document.getElementById('IBU')
+    let color = document.getElementById('EBC')
+    let alcohol = document.getElementById('ABV')
+
+    totalMalts.innerHTML = getMaltsMass()
+    totalHops.innerHTML = getHopsMass()
+    originalDensity.innerHTML = calculDO(getAllMalts())
+    finalDensity.innerHTML = calculDF()
+    bitterness.innerHTML = calculIBU(getAllHops())
+    color.innerHTML = calculEBC(getAllMalts())
+    alcohol.innerHTML = calculABV()// calculABV
+}
+
+function getAllMalts() {
+    return recipeIngredients.filter(ing => ing.type === 'malts')
+}
+
+function getAllHops() {
+    return recipeIngredients.filter(ing => ing.type === 'hops')
+}
+
+function getAllYeasts() {
+    return recipeIngredients.filter(ing => ing.type === 'yeasts')
+}
+
+function getYeastsAttenuation() {
+    let sum = 0;
+    getAllYeasts().forEach(yeast => {
+        sum += parseFloat(yeast.data.ATTENUATION)
+    })
+    return sum
+}
+
+function getMaltsMass() {
+    let sum = 0;
+    getAllMalts().forEach(malt => {
+        sum += parseFloat(malt.qty)
+    })
+    return sum
+}
+
+function getHopsMass() {
+    let sum = 0;
+    getAllHops().forEach(hop => {
+        sum += parseFloat(hop.qty)
+    })
+    return sum
+}
+
+function isOneOfEachInIt() {
+    return recipeIngredients.some(ing => ing.type === 'hops') && recipeIngredients.some(ing => ing.type === 'malts') && recipeIngredients.some(ing => ing.type === 'yeasts')
 }
