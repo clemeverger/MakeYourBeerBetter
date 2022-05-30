@@ -147,13 +147,15 @@ ajoutElem.addEventListener('click', function () {
     table.style.display = "block";
     //addIngredient.style.display = "block";
 
-    totalMaltRecipe.innerHTML = somme("malts", "MASSE") + " Kgs";
-    totalHopsRecipe.innerHTML = somme("hops", "MASSE") + " Grs";
-    DORecipe.innerHTML = calculDO().toFixed(3);
-    DFRecipe.innerHTML = calculDF().toFixed(3);
-    IBURecipe.innerHTML = calculIBU();
-    EBCRecipe.innerHTML = Math.round(calculEBC());
-    ABVRecipe.innerHTML = calculABV().toFixed(1) + " %";
+    // totalMaltRecipe.innerHTML = somme("malts", "MASSE") + " Kgs";
+    // totalHopsRecipe.innerHTML = somme("hops", "MASSE") + " Grs";
+    // DORecipe.innerHTML = calculDO().toFixed(3);
+    // DFRecipe.innerHTML = calculDF().toFixed(3);
+    // IBURecipe.innerHTML = calculIBU();
+    // EBCRecipe.innerHTML = Math.round(calculEBC());
+    // ABVRecipe.innerHTML = calculABV().toFixed(1) + " %";
+    
+    document.querySelector('#beforeBeer').classList.add('ebc-' + Math.round(calculEBC()) + '');
 })
 
 
@@ -264,36 +266,34 @@ function calculEBC() // Calcul de la couleur
 
 ////////
 
-
-if (document.querySelector('.table tr .elem'))
-{
+if (document.querySelector('.table tr .elem')) {
     document.querySelector('.table').style.display = "block";
     document.querySelector('.resultCalc').style.display = "block";
 }
 
 
 
-ajoutElem.addEventListener('click', function () {
-    //console.log('ok');
-    //this.style.display = "none";
-    table.style.display = "block";
-    //addIngredient.style.display = "block";
+// ajoutElem.addEventListener('click', function () {
+//     //console.log('ok');
+//     //this.style.display = "none";
+//     table.style.display = "block";
+//     //addIngredient.style.display = "block";
 
-    // Create an empty <tr> element
-    var row = table.insertRow(0);
+//     // Create an empty <tr> element
+//     var row = table.insertRow(0);
 
-    // Insert new cells (<td> elements)
-    let cellName = row.insertCell(0);
-    let cellType = row.insertCell(1);
-    let cellQuantite = row.insertCell(2);
-    let cellEtape = row.insertCell(3);
-    let cellTemps = row.insertCell(4);
+//     // Insert new cells (<td> elements)
+//     let cellName = row.insertCell(0);
+//     let cellType = row.insertCell(1);
+//     let cellQuantite = row.insertCell(2);
+//     let cellEtape = row.insertCell(3);
+//     let cellTemps = row.insertCell(4);
 
-    // Add some text to the new cells:
-    cellName.innerHTML = sliderData.malts;
-    cellType.innerHTML = sliderData.malts.TYPE;
-    cellQuantite.innerHTML = sliderData.malts.MASSE;
-    cellEtape.innerHTML = "Empatage";
-    cellTemps.innerHTML = sliderData.malts.TIME;
-})
+//     // Add some text to the new cells:
+//     cellName.innerHTML = sliderData.malts;
+//     cellType.innerHTML = sliderData.malts.TYPE;
+//     cellQuantite.innerHTML = sliderData.malts.MASSE;
+//     cellEtape.innerHTML = "Empatage";
+//     cellTemps.innerHTML = sliderData.malts.TIME;
+// })
 

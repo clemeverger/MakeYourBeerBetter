@@ -1,0 +1,468 @@
+#hetic {
+    color: #6FB400;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background: #201F1E;
+}
+
+#glass {
+    width: 140px;
+    height: 180px;
+    background: transparent;
+    border: solid 5px white;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transform: rotate(-20deg);
+    animation: glass 10s infinite;
+}
+
+#poignet {
+    width: 60px;
+    height: 110px;
+    background: transparent;
+    border: solid 5px white;
+    position: absolute;
+    top: 0;
+    left: 132px;
+    border-radius: 0 16px 16px 0;
+    border-left: none;
+    transform: rotate(-20deg);
+    animation: poignet 10s infinite;
+}
+
+#beforeBeer {
+    content: "";
+    width: 500px;
+    height: 250px;
+    //background-color: rgb(134, 73, 46);
+    //background: #E8B504;
+    position: absolute;
+    top: 83px;
+    left: -330px;
+    transform: rotate(40deg);
+    animation: beer 10s infinite;
+}
+
+#beer {
+    width: 116px;
+    height: 168px;
+    //background: transparent;
+    position: absolute;
+    left: 7px;
+    top: 0px;
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+    background: transparent;
+}
+
+#mousse_1 {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    z-index: 4;
+
+    &::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse 10s infinite;
+        top: -5px;
+    }
+
+    &::after {
+        content: "";
+        width: 34px;
+        height: 34px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 20px;
+        animation: mousse 10s infinite;
+    }
+}
+
+#mousse_2 {
+    position: absolute;
+    top: -5px;
+    left: 12px;
+    z-index: 4;
+
+    &::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse 10s infinite;
+        top: -5px;
+        left: 15px;
+    }
+
+    &::after {
+        content: "";
+        width: 34px;
+        height: 34px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: -10px;
+        left: 35px;
+        animation: mousse 10s infinite;
+    }
+}
+
+#mousse_3 {
+    position: absolute;
+    top: -5px;
+    left: 28px;
+    z-index: 4;
+
+    &::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse 10s infinite;
+        top: -5px;
+        left: 30px;
+    }
+
+    &::after {
+        content: "";
+        width: 34px;
+        height: 34px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        left: 45px;
+        animation: mousse 10s infinite;
+    }
+}
+
+#mousse_4 {
+    position: absolute;
+    top: -5px;
+    left: 42px;
+    z-index: 4;
+
+    &::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse 10s infinite;
+        top: -2px;
+        left: 31px;
+    }
+
+    &::after {
+        content: "";
+        width: 34px;
+        height: 34px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 50px;
+        animation: mousse 10s infinite;
+    }
+}
+
+#mousse_5 {
+    position: absolute;
+    top: -5px;
+    left: 57px;
+    z-index: 4;
+    animation: mousse 10s infinite;
+
+    &::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top:-5px;
+        left: 45px;
+    }
+
+}
+
+#mousse_volante {
+    position: absolute;
+    top: -15px;
+    left: 12px;
+    z-index: 4;
+
+    &::before {
+        content: "";
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse_volante 10s infinite;
+        top:-15px;
+    }
+
+    &::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 70px;
+        animation: mousse_volante 10s infinite;
+    }
+}
+
+#mousse_interieur {
+    position: absolute;
+    top: 55px;
+    left: 18px;
+    z-index: 4;
+    opacity: 0.9;
+
+    &::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse_interieur 10s infinite;
+        top: 25px;
+        left: 10px;
+    }
+
+    &::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 35px;
+        left: 70px;
+        animation: mousse_interieur 5s infinite;
+    }
+}
+
+#mousse_interieur_2 {
+    position: absolute;
+    top: 35px;
+    left: 25px;
+    z-index: 4;
+    opacity: 0.9;
+
+    &::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse_interieur 10s infinite;
+        top: 10px;
+    }
+
+    &::after {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 20px;
+        left: 34px;
+        animation: mousse_interieur 5s infinite;
+    }
+}
+
+#mousse_interieur_3 {
+    position: absolute;
+    top: 45px;
+    left: 32px;
+    z-index: 4;
+    opacity: 0.9;
+
+    &::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse_interieur 10s infinite;
+        top: 10px;
+    }
+
+    &::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 16px;
+        left: 24px;
+        animation: mousse_interieur 5s infinite;
+    }
+}
+
+#mousse_interieur_4 {
+    position: absolute;
+    top: 41px;
+    left: 38px;
+    z-index: 4;
+    opacity: 0.9;
+
+    &::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        animation: mousse_interieur 10s infinite;
+        top: 20px;
+    }
+
+    &::after {
+        content: "";
+        width: 11px;
+        height: 11px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 56px;
+        left: px;
+        animation: mousse_interieur 5s infinite;
+    }
+}
+
+/* ANIMATIONS */
+
+@keyframes beer {
+    0% {
+        transform: translateY(-5);
+    }
+
+    17% {
+        transform: translateY(-82px);
+    }
+
+    100% {
+        transform: translateY(-82px);
+    }
+}
+
+@keyframes glass {
+    0% {
+        transform: rotate(-20deg);
+    }
+
+    17% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+
+@keyframes poignet {
+    0% {
+        transform: rotate(-20deg);
+    }
+
+    17% {
+        transform: rotate(0deg) translateX(5px) translateY(20px);
+    }
+
+    100% {
+        transform: rotate(0deg) translateX(5px) translateY(20px);
+    }
+}
+
+@keyframes mousse {
+    0% {
+        transform: scale(0);
+    }
+
+    10% {
+        transform: scale(0);
+    }
+
+    20% {
+        transform: scale(1);
+    }
+}
+
+@keyframes mousse_volante {
+    0% {
+        transform: scale(0) translateY(0px);
+    }
+
+    10% {
+        transform: scale(0) translateY(0px);
+    }
+
+    20% {
+        transform: scale(1) translateY(-20px);
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(-80px);
+        opacity: 0;
+    }
+}
+
+@keyframes mousse_interieur {
+    0% {
+        transform: scale(0) translateY(0px);
+    }
+
+    20% {
+        transform: scale(0) translateY(0px);
+    }
+
+    40% {
+        transform: scale(1) translateY(-60px);
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(-60px);
+        opacity: 0;
+    }
+}
