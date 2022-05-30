@@ -118,9 +118,7 @@ let sliderData = {
         },
     ],
 }
-let tableHops = document.querySelector('.tableHops tbody');
-let tableMalts = document.querySelector('.tableMalts tbody');
-let tableYeasts = document.querySelector('.tableYeasts tbody');
+let table = document.querySelector('.table tbody');
 // let ajoutElem = document.querySelector("#ajoutElem");
 
 // Déclaration des différents input de résultat des calculs
@@ -138,6 +136,14 @@ let userInput = {
     "boil": "",
     "efficiency": ""
 };
+
+let steps = [
+     'Moût',
+     'Pré-ébullition',
+     'Ébullition',
+     'Whirlpool',
+     'Dryhop'
+]
 
 document.addEventListener("DOMContentLoaded", () => {
     getUserInputs();
@@ -267,121 +273,83 @@ function calculEBC() // Calcul de la couleur
 ////////
 
 
-if (document.querySelector('.tableHops .tableYeasts .tableMalts tr .elem')) {
-    document.querySelector('.tableHops').style.display = "block";
-    document.querySelector('.tableYeasts').style.display = "block";
-    document.querySelector('.tableMalts').style.display = "block";
+if (document.querySelector('.table tr .elem')) {
+    document.querySelector('.table').style.display = "block";
     document.querySelector('.resultCalc').style.display = "block";
 }
 
-
-
-// ajoutElem.addEventListener('click', function () {
-//     //console.log('ok');
-//     //this.style.display = "none";
-//     table.style.display = "block";
-//     //addIngredient.style.display = "block";
-
-//     // Create an empty <tr> element
-//     var row = table.insertRow(0);
-
-//     // Insert new cells (<td> elements)
-//     let cellName = row.insertCell(0);
-//     let cellType = row.insertCell(1);
-//     let cellQuantite = row.insertCell(2);
-//     let cellEtape = row.insertCell(3);
-//     let cellTemps = row.insertCell(4);
-
-//     // Add some text to the new cells:
-//     cellName.innerHTML = sliderData.malts;
-//     cellType.innerHTML = sliderData.malts.TYPE;
-//     cellQuantite.innerHTML = sliderData.malts.MASSE;
-//     cellEtape.innerHTML = "Empatage";
-//     cellTemps.innerHTML = sliderData.malts.TIME;
-// })
-
-
 // Tab qui contient tous les ingrédients ajoutés
-let currentIngredient = [];
+let currentIngredients = [];
+
+//Tab qui contient tous les ingrédients validés (soit après avoir rentré les quantités etc)
+let recipeIngredients = [];
 
 export default function getIngredient(ing) {
-    console.log({ ing })
+    currentIngredients.push({ type: ing.type, data: ing.data })
+    console.log({ currentIngredient: currentIngredients })
 
-    tableHops.style.display = "block";
-    tableMalts.style.display = "block";
-    tableYeasts.style.display = "block";
 
-    switch (ing.type) {
-        case 'hops':
-            var row = tableHops.insertRow(0);
-            // Insert new cells (<td> elements)
-            let cellNameHops = row.insertCell(0);
-            let cellTypeHops = row.insertCell(1);
-            let cellQuantiteHops = row.insertCell(2);
-            let cellEtapeHops = row.insertCell(3);
-            let cellTempsHops = row.insertCell(4);
-            let cellConfirmHops = row.insertCell(5);
+    table.style.display = "block";
 
-            // Add some text to the new cells:
-            cellNameHops.innerHTML = ing.data.NAME;
-            cellTypeHops.innerHTML = ing.type;
-            cellQuantiteHops.innerHTML = ing.data.DISPLAY_AMOUNT;
-            cellEtapeHops.innerHTML = ing.data.USE;
-            cellTempsHops.innerHTML = ing.data.DISPLAY_TIME;
-            cellConfirmHops.innerHTML = '<button id="confirmHops">Valider</button>'
-            var confirmHops = document.getElementById("confirmHops");
-            confirmHops.onclick = function (event) {
-                currentIngredient.push({ type: ing.type, data: ing.data })
-                console.log({ currentIngredient })
-            }
 
-            break;
-        case 'malts':
-            var row = tableMalts.insertRow(0);
-            // Insert new cells (<td> elements)
-            let cellNameMalts = row.insertCell(0);
-            let cellTypeMalts = row.insertCell(1);
-            let cellQuantiteMalts = row.insertCell(2);
-            let cellConfirmMalts = row.insertCell(3);
+    var row = table.insertRow(0);
+    // Insert new cells (<td> elements)
+    let cellName = row.insertCell(0);
+    let cellType = row.insertCell(1);
+    let cellQuantite = row.insertCell(2);
+    let cellEtape = row.insertCell(3);
+    let cellTemps = row.insertCell(4);
+    let cellValider = row.insertCell(5);
+    let cellAnnuler = row.insertCell(6);
 
-            // Add some text to the new cells:
-            cellNameMalts.innerHTML = ing.data.NAME;
-            cellTypeMalts.innerHTML = ing.type;
-            cellQuantiteMalts.innerHTML = ing.data.DISPLAY_AMOUNT;
-            cellConfirmMalts.innerHTML = '<button id="confirmMalts">Valider</button>'
-            var confirmMalts = document.getElementById("confirmMalts");
-            confirmMalts.onclick = function (event) {
-                currentIngredient.push({ type: ing.type, data: ing.data })
-                console.log({ currentIngredient })
-            }
+    //Creation d'un id pour l'ingrédient
+    let id = Date.now()
 
-            break;
-        case 'yeasts':
-            var row = tableYeasts.insertRow(0);
-            // Insert new cells (<td> elements)
-            let cellNameYeasts = row.insertCell(0);
-            let cellTypeYeasts = row.insertCell(1);
-            let cellQuantiteYeasts = row.insertCell(2);
-            let cellConfirmYeasts = row.insertCell(3);
 
-            // Add some text to the new cells:
-            cellNameYeasts.innerHTML = ing.data.NAME;
-            cellTypeYeasts.innerHTML = ing.type;
-            cellQuantiteYeasts.innerHTML = ing.data.DISPLAY_AMOUNT;
-            cellConfirmYeasts.innerHTML = '<button id="confirmYeasts">Valider</button>'
-            var confirmYeasts = document.getElementById("confirmYeasts");
-            confirmYeasts.onclick = function (event) {
-                currentIngredient.push({ type: ing.type, data: ing.data })
-                console.log({ currentIngredient })
-            }
+    // Add some content to the new cells:
+    cellName.innerHTML = ing.data.NAME;
+    cellType.innerHTML = ing.type;
+    cellQuantite.innerHTML = `<input type="number" id="${'qty'+id}" name="quantite" step=10>`
+    cellEtape.innerHTML = `<select  id="${'step'+id}" name="etape">
+    <option value="${steps[0]}">${steps[0]}</option>
+    <option value="${steps[1]}">${steps[1]}</option>
+    <option value="${steps[2]}">${steps[2]}</option>
+    <option value="${steps[3]}">${steps[3]}</option>
+    <option value="${steps[4]}">${steps[4]}</option>
+    </select>
+    `
+    cellTemps.innerHTML = `<input type="number" id="${'tmp'+id}" name="temps" step=5>`
+    cellValider.innerHTML = `<button id="${'val'+id}">Valider</button>`
+    cellAnnuler.innerHTML = `<button id="${'can'+id}">Annuler</button>`
 
-            break;
+
+    // To watch elements further
+    let inputStep = document.getElementById('step'+id)
+    let inputTmp = document.getElementById('tmp'+id)
+    let inputQty = document.getElementById('qty'+id)
+    let buttonVal = document.getElementById('val'+id)
+    let buttonCancel = document.getElementById('can'+id)
+
+
+    // event listeners
+    buttonVal.addEventListener('click', () => {
+        addToRecipe(ing, id, inputStep.value, inputTmp.value, inputQty.value)
+    })
+    buttonCancel.addEventListener('click', () => {
+        removeFromRecipe(id)
+    })
+}
+
+function addToRecipe(ing, id, step, tmp, qty) {
+    if (!step || !tmp || !qty) {
+        window.alert("Vous n'avez pas rempli tous les champs !")
+    } else {
+        recipeIngredients.push({...ing, id, step, tmp, qty})
+        console.log({recipeIngredients})
     }
-    //this.style.display = "none";
 
-    //addIngredient.style.display = "block";
+   
+}
 
-    // Create an empty <tr> element
-
-
+function removeFromRecipe(id) {
 }

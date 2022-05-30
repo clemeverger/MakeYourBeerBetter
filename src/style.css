@@ -32,7 +32,7 @@
         display: flex; }
         .recipe .recipe-content .recap-recip form div {
           display: inline; }
-      .recipe .recipe-content .recap-recip .tableHops {
+      .recipe .recipe-content .recap-recip .table {
         width: 80%;
         height: 60vh;
         margin: 0 auto;
