@@ -344,13 +344,13 @@ function removeFromRecipe(id) {
 function renderBeerStats() {
 
 
-    totalMalts.innerHTML = getMaltsMass()
-    totalHops.innerHTML = getHopsMass()
+    totalMalts.innerHTML = getMaltsMass() + "g"
+    totalHops.innerHTML = getHopsMass() + "g"
     finalDensity.innerHTML = calculDF()
     originalDensity.innerHTML = calculDO(getAllMalts())
     bitterness.innerHTML = calculIBU(getAllHops())
     color.innerHTML = calculEBC(getAllMalts())
-    alcohol.innerHTML = calculABV()// calculABV
+    alcohol.innerHTML = calculABV() + "°"// calculABV
 }
 
 function resetBeerStats() {
