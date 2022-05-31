@@ -182,31 +182,6 @@ function getUserInputs() // Récupère la valeur des input (nom, volume, ébulit
 }
 //////////////////////////////// Calcul //////////////////////////////////////
 
-function somme(typeName, info) // Retourne les infos de sliderData typeName => nom de l'ingredient & info => l'info de l'ingredient
-{
-    let data = sliderData;
-    let elementName = "";
-
-    switch (typeName) {
-        case "malts": elementName = data.malts;
-            break;
-        case "hops": elementName = data.hops;
-            break;
-        case "yeasts": elementName = data.yeasts;
-            break;
-    };
-    let infoSlider = [];
-    elementName.forEach(function (elem) {
-        infoSlider.push(elem[info]);
-    });
-
-    let total = 0;
-    infoSlider.forEach(element => {
-        total += parseFloat(element);
-    });
-    return total;
-}
-
 function qtSucre(masseGrain, potentielGrain, efficacite) // Calcul De la quantité de sucre pour chaque Malts (Kg)
 {
     return masseGrain * (potentielGrain / 100) * (efficacite / 100);
@@ -229,17 +204,17 @@ function calculDF() // Calcul de la densité finale
 {
     let attenuation = getYeastsAttenuation()
 
-    return 1 + (((calculDO() * 1000 - 1000) * (1 - attenuation / 100)) / 1000)
+    return 1 + (((calculDO(getAllMalts()) * 1000 - 1000) * (1 - attenuation / 100)) / 1000)
 }
 
 function calculABV() // Calcul du taux d'alcool (%)
 {
-    return (calculDO() * 1000 - calculDF() * 1000) / 7.6
+    return (calculDO(getAllMalts()) * 1000 - calculDF() * 1000) / 7.6
 }
 
 function calculIBUs(duree, volume, masseHoublon, totalAlpha) // 
 {
-    return [1.65 * Math.pow(0.000125, calculDO() / 1000)] * [(1 - Math.pow(2.718281828459045235, (-0.04 * duree))) / 4.15] * (totalAlpha / 10 * masseHoublon * 74.90) / volume;
+    return [1.65 * Math.pow(0.000125, calculDO(getAllMalts()) / 1000)] * [(1 - Math.pow(2.718281828459045235, (-0.04 * duree))) / 4.15] * (totalAlpha / 10 * masseHoublon * 74.90) / volume;
 }
 
 function calculIBU(hops) // Calcul de l'amertume () // envoyer en param un array des hops choisis
@@ -371,8 +346,8 @@ function renderBeerStats() {
 
     totalMalts.innerHTML = getMaltsMass()
     totalHops.innerHTML = getHopsMass()
-    originalDensity.innerHTML = calculDO(getAllMalts())
     finalDensity.innerHTML = calculDF()
+    originalDensity.innerHTML = calculDO(getAllMalts())
     bitterness.innerHTML = calculIBU(getAllHops())
     color.innerHTML = calculEBC(getAllMalts())
     alcohol.innerHTML = calculABV()// calculABV
@@ -389,6 +364,7 @@ function resetBeerStats() {
 }
 
 function getAllMalts() {
+    console.log('sending allMalts : ', recipeIngredients.filter(ing => ing.type === 'malts'))
     return recipeIngredients.filter(ing => ing.type === 'malts')
 }
 
