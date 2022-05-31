@@ -68,8 +68,6 @@ function qtSucre(masseGrain, potentielGrain, efficacite) // Calcul De la quantit
 
 function calculDO(malts) // Calcul de la densité originelle du moût // PARAM : tableau de malts
 {
-    console.log({ malts })
-
     let totalSucre = 0;
     malts.forEach(malt => {
         totalSucre += qtSucre(malt.qty, malt.data.YIELD, userInput.efficiency);
@@ -136,11 +134,8 @@ let recipeIngredients = [];
 
 export default function getIngredient(ing) {
     currentIngredients.push({ type: ing.type, data: ing.data })
-    console.log({ currentIngredient: currentIngredients })
-
 
     table.style.display = "block";
-
 
     var row = table.insertRow(0);
     // Insert new cells (<td> elements)
@@ -154,7 +149,6 @@ export default function getIngredient(ing) {
 
     //Creation d'un id pour l'ingrédient
     let id = Date.now()
-
 
     // Add some content to the new cells:
     cellName.innerHTML = ing.data.NAME;
@@ -172,14 +166,12 @@ export default function getIngredient(ing) {
     cellValider.innerHTML = `<button id="${'val' + id}">Valider</button>`
     cellAnnuler.innerHTML = `<button id="${'can' + id}">Annuler</button>`
 
-
     // To watch elements further
     let inputStep = document.getElementById('step' + id)
     let inputTmp = document.getElementById('tmp' + id)
     let inputQty = document.getElementById('qty' + id)
     let buttonVal = document.getElementById('val' + id)
     let buttonCancel = document.getElementById('can' + id)
-
 
     // event listeners
     buttonVal.addEventListener('click', () => {
@@ -190,7 +182,6 @@ export default function getIngredient(ing) {
     buttonCancel.addEventListener('click', () => {
         recipeIngredients = removeFromRecipe(id)
         table.deleteRow(0)
-        console.log({ recipeIngredients })
     })
 }
 
@@ -207,11 +198,7 @@ function addToRecipe(ing, id, step, tmp, qty) {
             recipeIngredients.push({ ...ing, id, step, tmp, qty })
             return true
         }
-
-
     }
-
-
 }
 
 function removeFromRecipe(id) {
@@ -245,7 +232,6 @@ function resetBeerStats() {
 }
 
 function getAllMalts() {
-    console.log('sending allMalts : ', recipeIngredients.filter(ing => ing.type === 'malts'))
     return recipeIngredients.filter(ing => ing.type === 'malts')
 }
 
