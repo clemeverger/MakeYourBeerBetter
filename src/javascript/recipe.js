@@ -1,125 +1,4 @@
-let sliderData = {
-    "hops": [
-        {
-            "NAME": "Agnus",
-            "VERSION": "1",
-            "ORIGIN": "Czech Republic",
-            "ALPHA": "10.5000000",
-            "AMOUNT": "0.0283495",
-            "USE": "Boil",
-            "TIME": "60.0000000",
-            "NOTES": "Several large Czech breweries like Agnus as a bittering hop because its alpha/beta ratio is relatively high, which they believe makes their beer more stable. High geraniol level, oils indicate dry hopping potential.\nUsed for: Ales\nAroma: Strong hop aroma, spicy\nSubstitutions: Unknown\nStorage: Unknown\n9-15% AA / 4-8% Beta",
-            "TYPE": "Bittering",
-            "FORM": "Pellet",
-            "BETA": "5.2500000",
-            "HSI": "15.0000000",
-            "DISPLAY_AMOUNT": "28.3 g",
-            "INVENTORY": "2000.0 g",
-            "DISPLAY_TIME": "60.0 min",
-            "MASSE": "120",
-            "TIME": "60"
-        },
-        {
-            "NAME": "Ahtanum",
-            "VERSION": "1",
-            "ORIGIN": "U.S.",
-            "ALPHA": "6.0000000",
-            "AMOUNT": "0.0000000",
-            "USE": "Boil",
-            "TIME": "0.0000000",
-            "NOTES": "Distinctive aromatic hops with moderate bittering power from Washington.\nUsed for: American ales and lagers\nAroma: Distinctive floral and citrus aromas\nSubstitutes: Amarillo, Cascade",
-            "TYPE": "Aroma",
-            "FORM": "Pellet",
-            "BETA": "5.2500000",
-            "HSI": "30.0000000",
-            "DISPLAY_AMOUNT": "0.0 g",
-            "INVENTORY": "2000.0 g",
-            "DISPLAY_TIME": "0.0 min",
-            "MASSE": "580",
-            "TIME": "20"
-        },
-    ],
-    "malts": [
-        {
-            "NAME": "Acid Malt",
-            "VERSION": "1",
-            "TYPE": "Grain",
-            "AMOUNT": "0.0000000",
-            "YIELD": "58.7000000",
-            "COLOR": "3.0000000",
-            "ADD_AFTER_BOIL": "FALSE",
-            "ORIGIN": "Germany",
-            "SUPPLIER": "",
-            "NOTES": "Acid malt contains acids from natural lactic acids.  Used by German brewers to adjust malt PH without chemicals to adhere to German purity laws.  Also enhances the head retention.",
-            "COARSE_FINE_DIFF": "1.5000000",
-            "MOISTURE": "4.0000000",
-            "DIASTATIC_POWER": "0.0000000",
-            "PROTEIN": "6.0000000",
-            "MAX_IN_BATCH": "10.0000000",
-            "RECOMMEND_MASH": "TRUE",
-            "IBU_GAL_PER_LB": "0.0000000",
-            "DISPLAY_AMOUNT": "0.0 kg",
-            "INVENTORY": "100.0 kg",
-            "POTENTIAL": "1.0270020",
-            "DISPLAY_COLOR": "5.9 EBC",
-            "EXTRACT_SUBSTITUTE": "Pale Liquid Extract",
-            "MASSE": "35"
-        },
-        {
-            "NAME": "Amber Dry Extract",
-            "VERSION": "1",
-            "TYPE": "Dry Extract",
-            "AMOUNT": "0.0000000",
-            "YIELD": "95.0000000",
-            "COLOR": "12.5000000",
-            "ADD_AFTER_BOIL": "FALSE",
-            "ORIGIN": "US",
-            "SUPPLIER": "",
-            "NOTES": "Amber colored dry malt extract, for general purpose use.\nUse in any medium to dark colored beer.\nExamples: Ales, Marzens, Amber Ale, India Pale Ale",
-            "COARSE_FINE_DIFF": "1.5000000",
-            "MOISTURE": "4.0000000",
-            "DIASTATIC_POWER": "120.0000000",
-            "PROTEIN": "11.7000000",
-            "MAX_IN_BATCH": "100.0000000",
-            "RECOMMEND_MASH": "FALSE",
-            "IBU_GAL_PER_LB": "0.0000000",
-            "DISPLAY_AMOUNT": "0.0 kg",
-            "INVENTORY": "100.0 kg",
-            "POTENTIAL": "1.0437000",
-            "DISPLAY_COLOR": "24.6 EBC",
-            "EXTRACT_SUBSTITUTE": "",
-            "MASSE": "60"
-        },
-    ],
-    "yeasts": [
-        {
-            "NAME": "Abbey Ale C",
-            "VERSION": "1",
-            "TYPE": "Ale",
-            "FORM": "Liquid",
-            "AMOUNT": "0.0000000",
-            "AMOUNT_IS_WEIGHT": "FALSE",
-            "LABORATORY": "Omega",
-            "PRODUCT_ID": "OYL-018",
-            "MIN_TEMPERATURE": "20.0000000",
-            "MAX_TEMPERATURE": "25.5555556",
-            "FLOCCULATION": "Medium",
-            "ATTENUATION": "76.0000000",
-            "NOTES": "From a famous Trappist brewery, this yeast produces the distinctive fruitiness and plum characteristics. Excellent yeast for high gravity beers, Belgian ales, dubbels and trippels.",
-            "BEST_FOR": "Belgian Ales, Abbey Ales, Trappist Ales",
-            "MAX_REUSE": "5",
-            "TIMES_CULTURED": "0",
-            "ADD_TO_SECONDARY": "FALSE",
-            "DISPLAY_AMOUNT": "0.0 ml",
-            "DISP_MIN_TEMP": "20.0 C",
-            "DISP_MAX_TEMP": "25.6 C",
-            "INVENTORY": "50.0 pkg",
-            "CULTURE_DATE": "03 Feb 2016"
-        },
-    ],
-}
 let table = document.querySelector('.table tbody');
-// let ajoutElem = document.querySelector("#ajoutElem");
 
 // Déclaration des différents input de résultat des calculs
 let totalMaltRecipe = document.querySelector('.resultCalc .totalMalts span');
@@ -346,11 +225,13 @@ function renderBeerStats() {
 
     totalMalts.innerHTML = getMaltsMass() + "g"
     totalHops.innerHTML = getHopsMass() + "g"
-    finalDensity.innerHTML = calculDF()
-    originalDensity.innerHTML = calculDO(getAllMalts())
+    finalDensity.innerHTML = calculDF().toFixed(2)
+    originalDensity.innerHTML = calculDO(getAllMalts()).toFixed(2)
     bitterness.innerHTML = calculIBU(getAllHops())
-    color.innerHTML = calculEBC(getAllMalts())
-    alcohol.innerHTML = calculABV() + "°"// calculABV
+    color.innerHTML = calculEBC(getAllMalts()).toFixed(2)
+    alcohol.innerHTML = calculABV().toFixed(2) + "°"// calculABV
+    document.querySelector('#beforeBeer').classList.add('ebc-' + Math.round(calculEBC(getAllMalts())) + '');
+
 }
 
 function resetBeerStats() {

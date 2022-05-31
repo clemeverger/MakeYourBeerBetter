@@ -66,16 +66,16 @@
                             <input type="text" name="beerName" id="beerName" placeholder="Le nom de la bière">
                         </div>
                         <div>
-                            <label for="volume">Volume : </label>
-                            <input type="text" name="volume" id="volume" placeholder="100 L">
+                            <label for="volume">Volume (en L) : </label>
+                            <input type="number" name="volume" id="volume" placeholder="100 L" step="10" min="0">
                         </div>
                         <div>
-                            <label for="boil">Durée d'ébulition : </label>
-                            <input type="text" name="boil" id="boil" placeholder="60 min">
+                            <label for="boil">Durée d'ébulition (en min): </label>
+                            <input type="number" name="boil" id="boil" placeholder="60 min" step="5" min="0">
                         </div>
                         <div>
-                            <label for="efficiency">Éfficacité de production : </label>
-                            <input type="text" name="efficiency" id="efficiency" placeholder="80 %">
+                            <label for="efficiency">Éfficacité de production (en %): </label>
+                            <input type="number" name="efficiency" id="efficiency" placeholder="80 %" step="1" min="0" max="100">
                         </div>
                     </form>
                     <!-- <button id="ajoutElem" class="c-button" style="display: block;">Ajouter un ingrédient 1</button> -->
@@ -91,7 +91,24 @@
                     
                 </div>
                 <div class="threejs">
-                    <img src="./img/beerColor.svg">
+                    <div class="animateBeer">
+                        <div id="glass">
+                            <div id="beer">
+                                <div id="beforeBeer"></div>
+                            </div>
+                        </div>
+                        <div id="poignet"></div>
+                        <div id="mousse_1"></div>
+                        <div id="mousse_2"></div>
+                        <div id="mousse_3"></div>
+                        <div id="mousse_4"></div>
+                        <div id="mousse_5"></div>
+                        <div id="mousse_volante"></div>
+                        <div id="mousse_interieur"></div>
+                        <div id="mousse_interieur_2"></div>
+                        <div id="mousse_interieur_3"></div>
+                        <div id="mousse_interieur_4"></div>
+                    </div>
                     <ul>
                         <li class="totalMalts">
                             <p>Total malts : <b id="totalMalts"></b></p>
